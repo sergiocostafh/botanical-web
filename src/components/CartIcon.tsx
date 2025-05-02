@@ -1,7 +1,7 @@
 
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CartIcon = () => {
