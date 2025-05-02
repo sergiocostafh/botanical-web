@@ -2,7 +2,10 @@
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Check } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { useState } from "react";
+import { toast } from "sonner";
 
 // Dados dos produtos - em uma aplicação real, esses dados viriam de uma API
 const productsData = [
@@ -151,6 +154,9 @@ const productsData = [
 const ProductDetails = () => {
   const { productId } = useParams();
   const product = productsData.find(p => p.id === productId);
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
 
   if (!product) {
     return (
@@ -170,6 +176,27 @@ const ProductDetails = () => {
   const handleContact = () => {
     window.open("https://wa.me/5500000000000?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20produto%20" + encodeURIComponent(product.name), "_blank");
   };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+    
+    // Visual feedback
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1500);
+    
+    // Toast notification
+    toast.success("Produto adicionado ao carrinho", {
+      description: `${product.name} (${quantity} unid.)`,
+    });
+  };
+
+  const incrementQuantity = () => setQuantity(prev => prev + 1);
+  const decrementQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
 
   return (
     <div className="min-h-screen bg-botanical-white">
@@ -204,13 +231,49 @@ const ProductDetails = () => {
                   </span>
                 )}
               </div>
+
+              {/* Quantity Selector */}
+              <div className="flex items-center mt-6 mb-4">
+                <span className="mr-3 text-botanical-dark">Quantidade:</span>
+                <div className="flex items-center border border-botanical-beige rounded-md">
+                  <button 
+                    onClick={decrementQuantity}
+                    className="px-3 py-1 text-botanical-dark hover:bg-botanical-beige/20 transition-colors"
+                  >
+                    -
+                  </button>
+                  <span className="px-4 py-1 text-botanical-dark">{quantity}</span>
+                  <button 
+                    onClick={incrementQuantity}
+                    className="px-3 py-1 text-botanical-dark hover:bg-botanical-beige/20 transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
               
               <div className="flex gap-3 mt-6 mb-8">
-                <button onClick={handleContact} className="botanical-button-primary">
-                  Comprar
+                <button 
+                  onClick={handleAddToCart}
+                  disabled={isAdded}
+                  className={`flex items-center justify-center w-full py-3 px-4 rounded transition-colors ${
+                    isAdded 
+                      ? 'bg-botanical-olive text-botanical-white' 
+                      : 'bg-botanical-clay text-botanical-white hover:bg-botanical-clay/90'
+                  }`}
+                >
+                  {isAdded ? (
+                    <>
+                      <Check className="mr-2 h-5 w-5" /> Adicionado
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag className="mr-2 h-5 w-5" /> Adicionar ao carrinho
+                    </>
+                  )}
                 </button>
                 <button onClick={handleContact} className="botanical-button-secondary">
-                  Saiba mais
+                  Consultar
                 </button>
               </div>
               

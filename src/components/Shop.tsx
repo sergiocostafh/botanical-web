@@ -1,6 +1,9 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ShoppingBag } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 interface Product {
   id: string;
@@ -12,6 +15,7 @@ interface Product {
 
 const Shop = () => {
   const [activeCategory, setActiveCategory] = useState("all");
+  const { addToCart } = useCart();
   
   const products: Product[] = [
     // Terroá Biocosmética
@@ -106,6 +110,14 @@ const Shop = () => {
     window.open("https://wa.me/5500000000000?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20produtos.", "_blank");
   };
 
+  const handleAddToCart = (product: Product, e: React.MouseEvent) => {
+    e.preventDefault();
+    addToCart(product);
+    toast.success("Produto adicionado ao carrinho", {
+      description: product.name,
+    });
+  };
+
   return (
     <section id="shop" className="py-20 bg-botanical-white">
       <div className="botanical-container">
@@ -168,12 +180,20 @@ const Shop = () => {
                   </Link>
                 </h3>
                 <p className="text-botanical-olive font-playfair text-lg mt-2">R$ {product.price.toFixed(2)}</p>
-                <button 
-                  onClick={handleContact}
-                  className="mt-3 w-full py-2 bg-botanical-clay text-botanical-white rounded hover:bg-botanical-clay/90 transition-colors"
-                >
-                  Comprar
-                </button>
+                <div className="flex gap-2 mt-3">
+                  <button 
+                    onClick={(e) => handleAddToCart(product, e)}
+                    className="flex-1 py-2 bg-botanical-clay text-botanical-white rounded hover:bg-botanical-clay/90 transition-colors flex items-center justify-center"
+                  >
+                    <ShoppingBag className="w-4 h-4 mr-1" /> Comprar
+                  </button>
+                  <Link 
+                    to={`/produto/${product.id}`}
+                    className="py-2 px-3 bg-botanical-beige text-botanical-dark rounded hover:bg-botanical-beige/80 transition-colors"
+                  >
+                    Detalhes
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

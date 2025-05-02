@@ -1,96 +1,112 @@
-
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useScrollPosition } from "@/hooks/use-scroll-position";
+import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import CartIcon from "./CartIcon";
 
 const Header = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const scrollPosition = useScrollPosition();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+    setIsScrolled(scrollPosition > 50);
+  }, [scrollPosition]);
+  
 
   return (
-    <header 
+    <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-botanical-white/95 backdrop-blur-sm shadow-sm py-3' 
-          : 'bg-transparent py-5'
+        isScrolled || !isHome
+          ? "bg-botanical-dark/95 py-4 shadow-lg"
+          : "bg-transparent py-6"
       }`}
     >
       <div className="botanical-container flex justify-between items-center">
-        {/* Logo */}
-        <a href="#" className="text-botanical-olive font-playfair text-2xl md:text-3xl">
+        <Link to="/" className="font-playfair text-botanical-white text-xl">
           Amanda D'Angelis
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
-          <a href="#home" className="header-link">Home</a>
-          <a href="#about" className="header-link">Quem Sou</a>
-          <a href="#courses" className="header-link">Cursos</a>
-          <a href="#shop" className="header-link">Loja</a>
-          <a href="#publications" className="header-link">Publicações</a>
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link
+            to="/#about"
+            className="text-botanical-white hover:text-botanical-beige transition-colors"
+          >
+            Sobre
+          </Link>
+          <Link
+            to="/#courses"
+            className="text-botanical-white hover:text-botanical-beige transition-colors"
+          >
+            Cursos
+          </Link>
+          <Link
+            to="/#shop"
+            className="text-botanical-white hover:text-botanical-beige transition-colors"
+          >
+            Loja
+          </Link>
+          <Link
+            to="/#publications"
+            className="text-botanical-white hover:text-botanical-beige transition-colors"
+          >
+            Publicações
+          </Link>
+          <CartIcon />
         </nav>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-botanical-dark hover:text-botanical-olive"
-          onClick={toggleMenu}
-          aria-label="Menu"
+        {/* Mobile Navigation Toggle */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-botanical-white hover:text-botanical-beige transition-colors"
         >
-          <Menu size={24} />
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <div 
-        className={`fixed inset-0 bg-botanical-white z-50 transition-transform duration-300 transform ${
-          menuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="p-6 flex flex-col h-full">
-          <div className="flex justify-between items-center mb-8">
-            <span className="text-botanical-olive font-playfair text-2xl">Amanda D'Angelis</span>
-            <button 
-              className="text-botanical-dark hover:text-botanical-olive"
-              onClick={closeMenu}
-              aria-label="Close Menu"
+      {/* Mobile Navigation Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-botanical-dark/95 py-4 shadow-lg">
+          <div className="botanical-container flex flex-col space-y-4">
+            <Link
+              to="/#about"
+              className="text-botanical-white hover:text-botanical-beige transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              <X size={24} />
-            </button>
-          </div>
-
-          <nav className="flex flex-col space-y-6 text-xl">
-            <a href="#home" className="header-link" onClick={closeMenu}>Home</a>
-            <a href="#about" className="header-link" onClick={closeMenu}>Quem Sou</a>
-            <a href="#courses" className="header-link" onClick={closeMenu}>Cursos</a>
-            <a href="#shop" className="header-link" onClick={closeMenu}>Loja</a>
-            <a href="#publications" className="header-link" onClick={closeMenu}>Publicações</a>
-          </nav>
-
-          <div className="mt-auto pb-8">
-            <p className="text-botanical-dark/70 italic text-sm">
-              "A natureza em sua forma mais pura e consciente."
-            </p>
+              Sobre
+            </Link>
+            <Link
+              to="/#courses"
+              className="text-botanical-white hover:text-botanical-beige transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Cursos
+            </Link>
+            <Link
+              to="/#shop"
+              className="text-botanical-white hover:text-botanical-beige transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Loja
+            </Link>
+            <Link
+              to="/#publications"
+              className="text-botanical-white hover:text-botanical-beige transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Publicações
+            </Link>
+            <div className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              <CartIcon />
+              <span className="ml-2 text-botanical-white">Carrinho</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
