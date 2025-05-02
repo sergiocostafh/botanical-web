@@ -1,8 +1,10 @@
 
+import { Link } from "react-router-dom";
+
 const Courses = () => {
   const courses = [
     {
-      id: 1,
+      id: "aromaterapia-brasileira",
       title: "Aromaterapia Brasileira",
       subtitle: "15 Óleos Essenciais da Flora Nativa",
       description: "Descubra os segredos dos óleos essenciais nativos do Brasil e suas aplicações terapêuticas.",
@@ -10,7 +12,7 @@ const Courses = () => {
       type: "Curso gravado",
     },
     {
-      id: 2,
+      id: "oleos-manteigas-vegetais-brasil",
       title: "Óleos e Manteigas Vegetais do Brasil",
       subtitle: "Propriedades e Aplicações",
       description: "Aprenda sobre os diversos óleos e manteigas vegetais brasileiros e suas aplicações em cosméticos naturais.",
@@ -18,7 +20,7 @@ const Courses = () => {
       type: "Curso gravado",
     },
     {
-      id: 3,
+      id: "oleos-manteigas-amazonia",
       title: "Óleos graxos e Manteigas da Amazônia",
       subtitle: "Bioativos da Floresta Amazônica",
       description: "Um mergulho profundo nos tesouros da biodiversidade amazônica e seu potencial cosmético e terapêutico.",
@@ -53,10 +55,10 @@ const Courses = () => {
                 <p className="text-sm text-botanical-olive font-medium mb-3">{course.subtitle}</p>
                 <p className="text-botanical-dark/70 mb-6 line-clamp-3">{course.description}</p>
                 <div className="flex justify-between items-center">
-                  <button className="botanical-button-primary text-sm py-2">Saiba mais</button>
-                  <button className="text-botanical-olive hover:text-botanical-dark transition-colors">
+                  <Link to={`/curso/${course.id}`} className="botanical-button-primary text-sm py-2">Saiba mais</Link>
+                  <a href="#" className="text-botanical-olive hover:text-botanical-dark transition-colors">
                     Adquirir
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

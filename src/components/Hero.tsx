@@ -1,5 +1,6 @@
 
 import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const scrollToSection = () => {
@@ -30,8 +31,8 @@ const Hero = () => {
             Aromaterapia, Perfumaria Botânica & Bioativos da Flora Brasileira
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#about" className="botanical-button-primary">Conheça meu Trabalho</a>
-            <a href="#shop" className="botanical-button-secondary">Visite a Loja</a>
+            <Link to="#about" className="botanical-button-primary">Conheça meu Trabalho</Link>
+            <Link to="#shop" className="botanical-button-secondary">Visite a Loja</Link>
           </div>
         </div>
       </div>

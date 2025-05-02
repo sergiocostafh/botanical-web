@@ -1,8 +1,9 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -15,28 +16,28 @@ const Shop = () => {
   const products: Product[] = [
     // Terroá Biocosmética
     {
-      id: 1,
+      id: "leave-in-fortalecedor",
       name: "Leave-in Fortalecedor Capilar",
       price: 85.00,
       image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "terroa"
     },
     {
-      id: 2,
+      id: "mascara-facial-purificante",
       name: "Máscara Facial Purificante",
       price: 79.00,
       image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "terroa"
     },
     {
-      id: 3,
+      id: "hidratante-facial",
       name: "Hidratante Facial",
       price: 95.00,
       image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "terroa"
     },
     {
-      id: 4,
+      id: "hidratante-regenerador",
       name: "Hidratante Regenerador",
       price: 110.00,
       image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
@@ -45,21 +46,21 @@ const Shop = () => {
     
     // Curadoria
     {
-      id: 5,
+      id: "desodorante-liquido-bioaromallis",
       name: "Desodorante Líquido - BioAromallis",
       price: 45.00,
       image: "https://images.unsplash.com/photo-1624453213076-b7e47c526923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "curadoria"
     },
     {
-      id: 6,
+      id: "desodorante-creme-bioaromallis",
       name: "Desodorante Creme - BioAromallis",
       price: 49.00,
       image: "https://images.unsplash.com/photo-1624453213076-b7e47c526923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "curadoria"
     },
     {
-      id: 7,
+      id: "perfume-oleo-mirach",
       name: "Perfume em Óleo Mirach - BioAromallis",
       price: 120.00,
       image: "https://images.unsplash.com/photo-1624453213076-b7e47c526923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
@@ -68,28 +69,28 @@ const Shop = () => {
     
     // Óleos Essenciais
     {
-      id: 8,
+      id: "oleo-essencial-alecrim",
       name: "Óleo Essencial de Alecrim",
       price: 35.00,
       image: "https://images.unsplash.com/photo-1626278664285-f796b9ee7806?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "oleos"
     },
     {
-      id: 9,
+      id: "oleo-essencial-capim-limao",
       name: "Óleo Essencial de Capim-limão",
       price: 32.00,
       image: "https://images.unsplash.com/photo-1626278664285-f796b9ee7806?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "oleos"
     },
     {
-      id: 10,
+      id: "oleo-essencial-limao-siciliano",
       name: "Óleo Essencial de Limão Siciliano",
       price: 38.00,
       image: "https://images.unsplash.com/photo-1626278664285-f796b9ee7806?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       category: "oleos"
     },
     {
-      id: 11,
+      id: "oleo-essencial-eucalipto",
       name: "Óleo Essencial de Eucalipto Globulus",
       price: 30.00,
       image: "https://images.unsplash.com/photo-1626278664285-f796b9ee7806?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
@@ -153,15 +154,19 @@ const Shop = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
           {filteredProducts.map((product) => (
             <div key={product.id} className="bg-botanical-white border border-botanical-beige rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
-              <div className="h-48 overflow-hidden">
+              <Link to={`/produto/${product.id}`} className="block h-48 overflow-hidden">
                 <img 
                   src={product.image} 
                   alt={product.name} 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                 />
-              </div>
+              </Link>
               <div className="p-4">
-                <h3 className="font-medium text-botanical-dark line-clamp-2 h-12">{product.name}</h3>
+                <h3 className="font-medium text-botanical-dark line-clamp-2 h-12">
+                  <Link to={`/produto/${product.id}`} className="hover:text-botanical-olive transition-colors">
+                    {product.name}
+                  </Link>
+                </h3>
                 <p className="text-botanical-olive font-playfair text-lg mt-2">R$ {product.price.toFixed(2)}</p>
                 <button 
                   onClick={handleContact}
