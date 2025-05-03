@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useScrollPosition } from "@/hooks/use-scroll-position";
@@ -11,11 +12,15 @@ const Header = () => {
   const isHome = location.pathname === "/";
   const scrollPosition = useScrollPosition();
   const [isScrolled, setIsScrolled] = useState(false);
+  const isAdmin = location.pathname.includes("/admin");
 
   useEffect(() => {
     setIsScrolled(scrollPosition > 50);
   }, [scrollPosition]);
   
+  if (isAdmin) {
+    return null; // Não renderiza o header em páginas admin
+  }
 
   return (
     <header
