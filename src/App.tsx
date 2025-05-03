@@ -15,6 +15,9 @@ import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminCourses from "./pages/Admin/Courses";
 import AdminProducts from "./pages/Admin/Products";
 import AdminPublications from "./pages/Admin/Publications";
+import EditCourse from "./pages/Admin/EditCourse";
+import EditProduct from "./pages/Admin/EditProduct";
+import EditPublication from "./pages/Admin/EditPublication";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -52,6 +55,14 @@ const App = () => (
               }
             />
             <Route
+              path="/admin/courses/edit/:courseId"
+              element={
+                <ProtectedRoute>
+                  <EditCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/products"
               element={
                 <ProtectedRoute>
@@ -60,10 +71,26 @@ const App = () => (
               }
             />
             <Route
+              path="/admin/products/edit/:productId"
+              element={
+                <ProtectedRoute>
+                  <EditProduct />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/publications"
               element={
                 <ProtectedRoute>
                   <AdminPublications />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/publications/edit/:publicationId"
+              element={
+                <ProtectedRoute>
+                  <EditPublication />
                 </ProtectedRoute>
               }
             />
