@@ -65,7 +65,7 @@ const AdminCourses = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
+                <TableHead className="w-[50px]">ID</TableHead>
                 <TableHead>Título</TableHead>
                 <TableHead>Subtítulo</TableHead>
                 <TableHead>Tipo</TableHead>
@@ -75,7 +75,7 @@ const AdminCourses = () => {
             <TableBody>
               {courses.map((course) => (
                 <TableRow key={course.id}>
-                  <TableCell className="font-medium">{course.id}</TableCell>
+                  <TableCell className="font-medium truncate max-w-[100px]" title={course.id}>{course.id.substring(0, 8)}...</TableCell>
                   <TableCell>{course.title}</TableCell>
                   <TableCell>{course.subtitle}</TableCell>
                   <TableCell>{course.type}</TableCell>

@@ -54,6 +54,9 @@ const Courses = () => {
                       src={course.image} 
                       alt={course.title} 
                       className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=Imagem+não+disponível";
+                      }}
                     />
                   </div>
                   <div className="p-6">

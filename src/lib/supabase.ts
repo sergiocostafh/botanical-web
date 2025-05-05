@@ -1,51 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import { Product, Course, Publication } from '../types';
 import { toast } from 'sonner';
+import { supabase } from '../integrations/supabase/client';
 
-// Default values for development - these will not work for real data operations
-// but will prevent the app from crashing during development
-const DEFAULT_SUPABASE_URL = 'https://your-project-url.supabase.co';
-const DEFAULT_SUPABASE_KEY = 'your-anon-key';
-
-// Try to get Supabase credentials from environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY;
-
-// Create client with fallbacks to prevent crashes
-export const supabase = createClient(supabaseUrl, supabaseKey);
-
-// Check if credentials are likely valid and show appropriate warnings
-const isUsingDefaultUrl = supabaseUrl === DEFAULT_SUPABASE_URL;
-const isUsingDefaultKey = supabaseKey === DEFAULT_SUPABASE_KEY;
-
-if (isUsingDefaultUrl || isUsingDefaultKey) {
-  console.warn(
-    '⚠️ Using default Supabase credentials. The app will load but database operations will fail. ' +
-    'To fix this, connect to Supabase using the green Supabase button in the top-right corner.'
-  );
-}
-
-// Handle API errors more gracefully
-const handleError = (error: any, operation: string) => {
-  console.error(`Error ${operation}:`, error);
-  
-  // Format a user-friendly error message
-  let message = 'Ocorreu um erro na operação';
-  if (error.message) {
-    if (error.message.includes('Failed to fetch')) {
-      message = 'Erro de conexão com o Supabase. Verifique as credenciais ou sua conexão com a internet.';
-    } else if (error.message.includes('supabaseUrl is required')) {
-      message = 'Configuração do Supabase incompleta. Por favor, conecte ao Supabase através do botão no canto superior direito.';
-    } else {
-      message = error.message;
-    }
-  }
-  
-  toast.error(message);
-  throw error;
-};
-
-// Mock data for when Supabase is not properly configured
+// Keep the mock data for when rendering in development without Supabase connection
 const mockProducts: Product[] = [
   {
     id: 'mock-1',
@@ -78,11 +36,43 @@ const mockPublications: Publication[] = [
   }
 ];
 
+// Helper to check if we're using a real Supabase instance
+const isSupabaseConfigured = () => {
+  try {
+    // Attempt a simple query to see if Supabase is working
+    const query = supabase.from('courses').select('count', { count: 'exact', head: true });
+    return true;
+  } catch (error) {
+    console.error("Supabase configuration error:", error);
+    return false;
+  }
+};
+
+// Handle API errors more gracefully
+const handleError = (error: any, operation: string) => {
+  console.error(`Error ${operation}:`, error);
+  
+  // Format a user-friendly error message
+  let message = 'Ocorreu um erro na operação';
+  if (error.message) {
+    if (error.message.includes('Failed to fetch')) {
+      message = 'Erro de conexão com o Supabase. Verifique as credenciais ou sua conexão com a internet.';
+    } else if (error.message.includes('supabaseUrl is required')) {
+      message = 'Configuração do Supabase incompleta. Por favor, conecte ao Supabase através do botão no canto superior direito.';
+    } else {
+      message = error.message;
+    }
+  }
+  
+  toast.error(message);
+  throw error;
+};
+
 // Serviços para produtos
 export const productService = {
   getProducts: async () => {
     try {
-      if (isUsingDefaultUrl || isUsingDefaultKey) {
+      if (!isSupabaseConfigured()) {
         console.warn('Using mock product data because Supabase is not properly configured');
         return mockProducts;
       }
@@ -103,7 +93,7 @@ export const productService = {
 
   getProduct: async (id: string) => {
     try {
-      if (isUsingDefaultUrl || isUsingDefaultKey) {
+      if (!isSupabaseConfigured()) {
         const mockProduct = mockProducts.find(p => p.id === id) || mockProducts[0];
         return mockProduct;
       }
@@ -159,7 +149,7 @@ export const productService = {
 export const courseService = {
   getCourses: async () => {
     try {
-      if (isUsingDefaultUrl || isUsingDefaultKey) {
+      if (!isSupabaseConfigured()) {
         console.warn('Using mock course data because Supabase is not properly configured');
         return mockCourses;
       }
@@ -180,7 +170,7 @@ export const courseService = {
 
   getCourse: async (id: string) => {
     try {
-      if (isUsingDefaultUrl || isUsingDefaultKey) {
+      if (!isSupabaseConfigured()) {
         const mockCourse = mockCourses.find(c => c.id === id) || mockCourses[0];
         return mockCourse;
       }
@@ -191,44 +181,70 @@ export const courseService = {
         .eq('id', id)
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error(`Error fetching course ${id}:`, error);
+        throw error;
+      }
       return data as Course;
     } catch (error) {
       console.error(`Error fetching course ${id}:`, error);
       toast.error("Erro ao carregar o curso. Verifique a conexão com o Supabase.");
-      return mockCourses[0]; // Return first mock course on error
+      throw error;
     }
   },
 
   createCourse: async (course: Omit<Course, 'id' | 'created_at'>) => {
-    const { data, error } = await supabase
-      .from('courses')
-      .insert([course])
-      .select();
-    
-    if (error) throw error;
-    return data[0] as Course;
+    try {
+      const { data, error } = await supabase
+        .from('courses')
+        .insert([course])
+        .select();
+      
+      if (error) throw error;
+      return data[0] as Course;
+    } catch (error) {
+      console.error("Error creating course:", error);
+      toast.error("Erro ao criar curso");
+      throw error;
+    }
   },
 
   updateCourse: async (id: string, course: Partial<Course>) => {
-    const { data, error } = await supabase
-      .from('courses')
-      .update(course)
-      .eq('id', id)
-      .select();
-    
-    if (error) throw error;
-    return data[0] as Course;
+    try {
+      console.log(`Updating course ${id} with:`, course);
+      const { data, error } = await supabase
+        .from('courses')
+        .update(course)
+        .eq('id', id)
+        .select();
+      
+      if (error) {
+        console.error("Supabase update error:", error);
+        throw error;
+      }
+      console.log("Update response:", data);
+      return data[0] as Course;
+    } catch (error) {
+      console.error(`Error updating course ${id}:`, error);
+      toast.error("Erro ao atualizar curso");
+      throw error;
+    }
   },
 
   deleteCourse: async (id: string) => {
-    const { error } = await supabase
-      .from('courses')
-      .delete()
-      .eq('id', id);
-    
-    if (error) throw error;
-    return true;
+    try {
+      const { error } = await supabase
+        .from('courses')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error(`Error deleting course ${id}:`, error);
+      toast.error("Erro ao excluir curso");
+      throw error;
+    }
   }
 };
 
@@ -236,7 +252,7 @@ export const courseService = {
 export const publicationService = {
   getPublications: async () => {
     try {
-      if (isUsingDefaultUrl || isUsingDefaultKey) {
+      if (!isSupabaseConfigured()) {
         console.warn('Using mock publication data because Supabase is not properly configured');
         return mockPublications;
       }
@@ -257,7 +273,7 @@ export const publicationService = {
 
   getPublication: async (id: number) => {
     try {
-      if (isUsingDefaultUrl || isUsingDefaultKey) {
+      if (!isSupabaseConfigured()) {
         const mockPublication = mockPublications.find(p => p.id === id) || mockPublications[0];
         return mockPublication;
       }
@@ -268,12 +284,15 @@ export const publicationService = {
         .eq('id', id)
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error(`Error fetching publication ${id}:`, error);
+        throw error;
+      }
       return data as Publication;
     } catch (error) {
       console.error(`Error fetching publication ${id}:`, error);
       toast.error("Erro ao carregar a publicação. Verifique a conexão com o Supabase.");
-      return mockPublications[0]; // Return first mock publication on error
+      throw error;
     }
   },
 

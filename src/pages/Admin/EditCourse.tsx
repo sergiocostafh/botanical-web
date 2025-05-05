@@ -43,6 +43,7 @@ const EditCourse = () => {
       setIsLoading(true);
       try {
         const course = await courseService.getCourse(courseId);
+        console.log("Fetched course:", course);
         form.reset({
           title: course.title,
           subtitle: course.subtitle,
@@ -67,6 +68,7 @@ const EditCourse = () => {
     
     setIsLoading(true);
     try {
+      console.log("Updating course with data:", data);
       await courseService.updateCourse(courseId, {
         title: data.title,
         subtitle: data.subtitle,
