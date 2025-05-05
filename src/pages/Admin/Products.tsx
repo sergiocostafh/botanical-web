@@ -1,50 +1,42 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AdminLayout from "@/components/AdminLayout";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-};
+import { productService } from "@/lib/supabase";
+import { Product } from "@/types";
 
 const AdminProducts = () => {
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: "leave-in-fortalecedor",
-      name: "Leave-in Fortalecedor Capilar",
-      price: 85.00,
-      category: "terroa"
-    },
-    {
-      id: "mascara-facial-purificante",
-      name: "Máscara Facial Purificante",
-      price: 79.00,
-      category: "terroa"
-    },
-    {
-      id: "desodorante-liquido-bioaromallis",
-      name: "Desodorante Líquido - BioAromallis",
-      price: 45.00,
-      category: "curadoria"
-    },
-    {
-      id: "oleo-essencial-alecrim",
-      name: "Óleo Essencial de Alecrim",
-      price: 35.00,
-      category: "oleos"
-    },
-    // Versão simplificada para demonstração
-  ]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleDelete = (id: string) => {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await productService.getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        toast.error("Erro ao carregar produtos");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleDelete = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir este produto?")) {
-      setProducts(products.filter(product => product.id !== id));
-      toast.success("Produto removido com sucesso");
+      try {
+        await productService.deleteProduct(id);
+        setProducts(products.filter(product => product.id !== id));
+        toast.success("Produto removido com sucesso");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        toast.error("Erro ao remover produto");
+      }
     }
   };
 
@@ -61,43 +53,53 @@ const AdminProducts = () => {
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>Preço</TableHead>
-              <TableHead>Categoria</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell className="font-medium">{product.id}</TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>R$ {product.price.toFixed(2)}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <Link 
-                      to={`/admin/products/edit/${product.id}`}
-                      className="bg-botanical-beige text-botanical-dark px-3 py-1 rounded text-sm hover:bg-botanical-beige/80 transition-colors"
-                    >
-                      Editar
-                    </Link>
-                    <button 
-                      onClick={() => handleDelete(product.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition-colors"
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </TableCell>
+        {isLoading ? (
+          <div className="flex justify-center py-10">
+            <div className="animate-spin w-8 h-8 border-4 border-botanical-olive border-t-transparent rounded-full"></div>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="py-10 text-center text-gray-500">
+            Nenhum produto encontrado
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Nome</TableHead>
+                <TableHead>Preço</TableHead>
+                <TableHead>Categoria</TableHead>
+                <TableHead className="text-right">Ações</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell className="font-medium">{product.id}</TableCell>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>R$ {product.price.toFixed(2)}</TableCell>
+                  <TableCell>{product.category}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Link 
+                        to={`/admin/products/edit/${product.id}`}
+                        className="bg-botanical-beige text-botanical-dark px-3 py-1 rounded text-sm hover:bg-botanical-beige/80 transition-colors"
+                      >
+                        Editar
+                      </Link>
+                      <button 
+                        onClick={() => handleDelete(product.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition-colors"
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </AdminLayout>
   );

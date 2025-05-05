@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { productService } from "@/lib/supabase";
 
 const formSchema = z.object({
   name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
@@ -38,77 +39,51 @@ const EditProduct = () => {
   });
 
   useEffect(() => {
-    // Simulate fetching product data
-    const fetchProduct = () => {
+    if (!productId) return;
+
+    const fetchProduct = async () => {
       setIsLoading(true);
-      // This would normally be an API call, but for now we simulate with local data
-      setTimeout(() => {
-        const products = [
-          {
-            id: "leave-in-fortalecedor",
-            name: "Leave-in Fortalecedor Capilar",
-            price: 85.00,
-            category: "terroa",
-            description: "Um leave-in nutritivo e fortalecedor capilar formulado com ativos da biodiversidade brasileira. Ideal para todos os tipos de cabelo, oferece hidratação profunda e proteção contra danos externos.",
-            image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-          {
-            id: "mascara-facial-purificante",
-            name: "Máscara Facial Purificante",
-            price: 79.00,
-            category: "terroa",
-            description: "Máscara facial purificante enriquecida com argila branca e ativos botânicos brasileiros. Remove impurezas e excesso de oleosidade sem ressecar a pele.",
-            image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-          {
-            id: "desodorante-liquido-bioaromallis",
-            name: "Desodorante Líquido - BioAromallis",
-            price: 45.00,
-            category: "curadoria",
-            description: "Desodorante líquido natural com ativos antibacterianos da flora brasileira. Oferece proteção duradoura sem obstruir os poros.",
-            image: "https://images.unsplash.com/photo-1624453213076-b7e47c526923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-          {
-            id: "oleo-essencial-alecrim",
-            name: "Óleo Essencial de Alecrim",
-            price: 35.00,
-            category: "oleos",
-            description: "Óleo essencial de alecrim 100% puro e natural, cultivado em solo brasileiro. Propriedades estimulantes, revigorantes e purificantes.",
-            image: "https://images.unsplash.com/photo-1626278664285-f796b9ee7806?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-        ];
-        
-        const product = products.find(p => p.id === productId);
-        
-        if (product) {
-          form.reset({
-            name: product.name,
-            price: product.price.toString(),
-            category: product.category,
-            description: product.description,
-            image: product.image
-          });
-        } else {
-          toast.error("Produto não encontrado");
-          navigate("/admin/products");
-        }
-        
+      try {
+        const product = await productService.getProduct(productId);
+        form.reset({
+          name: product.name,
+          price: product.price.toString(),
+          category: product.category,
+          description: product.description,
+          image: product.image
+        });
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        toast.error("Erro ao carregar informações do produto");
+        navigate("/admin/products");
+      } finally {
         setIsLoading(false);
-      }, 500);
+      }
     };
 
     fetchProduct();
   }, [productId, form, navigate]);
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    if (!productId) return;
     
-    // Simulate API call to update product
-    setTimeout(() => {
+    setIsLoading(true);
+    try {
+      await productService.updateProduct(productId, {
+        name: data.name,
+        price: parseFloat(data.price),
+        category: data.category,
+        description: data.description,
+        image: data.image
+      });
       toast.success("Produto atualizado com sucesso!");
-      setIsLoading(false);
       navigate("/admin/products");
-    }, 1000);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      toast.error("Erro ao atualizar produto");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

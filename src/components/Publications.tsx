@@ -1,23 +1,28 @@
 
+import { useState, useEffect } from "react";
+import { publicationService } from "@/lib/supabase";
+import { Publication } from "@/types";
+import { toast } from "sonner";
+
 const Publications = () => {
-  const publications = [
-    {
-      id: 1,
-      title: "MERCADO MUNDIAL DE ÓLEOS ESSENCIAIS E POSIÇÃO DA INDÚSTRIA BRASILEIRA",
-      journal: "Revista de Economia & Tecnologia",
-      year: "2023",
-      abstract: "Este estudo examina o mercado mundial de óleos essenciais e a posição do Brasil nesse cenário. A pesquisa analisa tendências de mercado, oportunidades e desafios enfrentados pela indústria brasileira de óleos essenciais.",
-      link: "#"
-    },
-    {
-      id: 2,
-      title: "Estudio etnobotánico de Cataia (Pimenta pseudocaryophyllus (Gomes) Landrum) en el Parque Nacional de Superagui, Guaraqueçaba/PR/Brasil",
-      journal: "Journal of Ethnobiology and Ethnomedicine",
-      year: "2022",
-      abstract: "Este estudo etnobotânico documenta o uso tradicional da Cataia (Pimenta pseudocaryophyllus) por comunidades tradicionais no Parque Nacional do Superagui, investigando suas propriedades e importância cultural.",
-      link: "#"
-    }
-  ];
+  const [publications, setPublications] = useState<Publication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPublications = async () => {
+      try {
+        const data = await publicationService.getPublications();
+        setPublications(data);
+      } catch (error) {
+        console.error("Error fetching publications:", error);
+        toast.error("Erro ao carregar publicações");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPublications();
+  }, []);
 
   return (
     <section id="publications" className="py-20 bg-botanical-beige/30">
@@ -27,31 +32,47 @@ const Publications = () => {
           Contribuições para o conhecimento científico sobre bioativos e etnobotânica brasileira.
         </p>
         
-        <div className="space-y-8 mt-12">
-          {publications.map((publication) => (
-            <div 
-              key={publication.id} 
-              className="bg-botanical-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-botanical-clay"
-            >
-              <h3 className="font-playfair text-xl mb-2 text-botanical-dark">{publication.title}</h3>
-              <div className="flex items-center text-sm text-botanical-dark/70 mb-4">
-                <span className="font-medium text-botanical-olive">{publication.journal}</span>
-                <span className="mx-2">•</span>
-                <span>{publication.year}</span>
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <div className="animate-spin w-10 h-10 border-4 border-botanical-olive border-t-transparent rounded-full"></div>
+          </div>
+        ) : (
+          <div className="space-y-8 mt-12">
+            {publications.length === 0 ? (
+              <div className="text-center py-10 text-gray-500">
+                Nenhuma publicação disponível no momento.
               </div>
-              <p className="text-botanical-dark/80 mb-4">{publication.abstract}</p>
-              <a 
-                href={publication.link}
-                className="inline-flex items-center text-botanical-olive hover:text-botanical-dark transition-colors font-medium"
-              >
-                Ler publicação completa
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-            </div>
-          ))}
-        </div>
+            ) : (
+              publications.map((publication) => (
+                <div 
+                  key={publication.id} 
+                  className="bg-botanical-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-botanical-clay"
+                >
+                  <h3 className="font-playfair text-xl mb-2 text-botanical-dark">{publication.title}</h3>
+                  <div className="flex items-center text-sm text-botanical-dark/70 mb-4">
+                    <span className="font-medium text-botanical-olive">{publication.journal}</span>
+                    <span className="mx-2">•</span>
+                    <span>{publication.year}</span>
+                  </div>
+                  {publication.abstract && <p className="text-botanical-dark/80 mb-4">{publication.abstract}</p>}
+                  {publication.link && (
+                    <a 
+                      href={publication.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-botanical-olive hover:text-botanical-dark transition-colors font-medium"
+                    >
+                      Ler publicação completa
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        )}
 
         <div className="mt-12 p-8 bg-botanical-light rounded-lg">
           <h3 className="font-playfair text-xl mb-4 text-botanical-dark text-center">Colaborações Científicas</h3>

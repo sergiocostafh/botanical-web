@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { publicationService } from "@/lib/supabase";
 
 const formSchema = z.object({
   title: z.string().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -36,61 +37,51 @@ const EditPublication = () => {
   });
 
   useEffect(() => {
-    // Simulate fetching publication data
-    const fetchPublication = () => {
+    if (!publicationId) return;
+
+    const fetchPublication = async () => {
       setIsLoading(true);
-      // This would normally be an API call, but for now we simulate with local data
-      setTimeout(() => {
-        const publications = [
-          {
-            id: 1,
-            title: "MERCADO MUNDIAL DE ÓLEOS ESSENCIAIS E POSIÇÃO DA INDÚSTRIA BRASILEIRA",
-            journal: "Revista de Economia & Tecnologia",
-            year: "2023",
-            abstract: "Este estudo examina o mercado mundial de óleos essenciais e a posição do Brasil nesse cenário. A pesquisa analisa tendências de mercado, oportunidades e desafios enfrentados pela indústria brasileira de óleos essenciais.",
-            link: "https://example.com/publication1"
-          },
-          {
-            id: 2,
-            title: "Estudio etnobotánico de Cataia (Pimenta pseudocaryophyllus (Gomes) Landrum) en el Parque Nacional de Superagui",
-            journal: "Journal of Ethnobiology and Ethnomedicine",
-            year: "2022",
-            abstract: "Este estudo etnobotânico documenta o uso tradicional da Cataia (Pimenta pseudocaryophyllus) por comunidades tradicionais no Parque Nacional do Superagui, investigando suas propriedades e importância cultural.",
-            link: "https://example.com/publication2"
-          }
-        ];
-        
-        const publication = publications.find(p => p.id === Number(publicationId));
-        
-        if (publication) {
-          form.reset({
-            title: publication.title,
-            journal: publication.journal,
-            year: publication.year,
-            abstract: publication.abstract,
-            link: publication.link
-          });
-        } else {
-          toast.error("Publicação não encontrada");
-          navigate("/admin/publications");
-        }
-        
+      try {
+        const publication = await publicationService.getPublication(Number(publicationId));
+        form.reset({
+          title: publication.title,
+          journal: publication.journal,
+          year: publication.year,
+          abstract: publication.abstract || "",
+          link: publication.link || ""
+        });
+      } catch (error) {
+        console.error("Error fetching publication:", error);
+        toast.error("Erro ao carregar informações da publicação");
+        navigate("/admin/publications");
+      } finally {
         setIsLoading(false);
-      }, 500);
+      }
     };
 
     fetchPublication();
   }, [publicationId, form, navigate]);
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    if (!publicationId) return;
     
-    // Simulate API call to update publication
-    setTimeout(() => {
+    setIsLoading(true);
+    try {
+      await publicationService.updatePublication(Number(publicationId), {
+        title: data.title,
+        journal: data.journal,
+        year: data.year,
+        abstract: data.abstract || undefined,
+        link: data.link || undefined
+      });
       toast.success("Publicação atualizada com sucesso!");
-      setIsLoading(false);
       navigate("/admin/publications");
-    }, 1000);
+    } catch (error) {
+      console.error("Error updating publication:", error);
+      toast.error("Erro ao atualizar publicação");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { courseService } from "@/lib/supabase";
 
 const formSchema = z.object({
   title: z.string().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -36,69 +37,51 @@ const EditCourse = () => {
   });
 
   useEffect(() => {
-    // Simulate fetching course data
-    const fetchCourse = () => {
+    if (!courseId) return;
+
+    const fetchCourse = async () => {
       setIsLoading(true);
-      // This would normally be an API call, but for now we simulate with local data
-      setTimeout(() => {
-        const courses = [
-          {
-            id: "aromaterapia-brasileira",
-            title: "Aromaterapia Brasileira",
-            subtitle: "15 Óleos Essenciais da Flora Nativa",
-            type: "Curso gravado",
-            description: "Descubra os segredos dos óleos essenciais nativos do Brasil e suas aplicações terapêuticas.",
-            image: "https://images.unsplash.com/photo-1515012003482-7e5c4c6a85d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-          {
-            id: "oleos-manteigas-vegetais-brasil",
-            title: "Óleos e Manteigas Vegetais do Brasil",
-            subtitle: "Propriedades e Aplicações",
-            type: "Curso gravado",
-            description: "Aprenda sobre os diversos óleos e manteigas vegetais brasileiros e suas aplicações em cosméticos naturais.",
-            image: "https://images.unsplash.com/photo-1616788075152-d107eb72c133?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-          {
-            id: "oleos-manteigas-amazonia",
-            title: "Óleos graxos e Manteigas da Amazônia",
-            subtitle: "Bioativos da Floresta Amazônica",
-            type: "Aula gravada",
-            description: "Um mergulho profundo nos tesouros da biodiversidade amazônica e seu potencial cosmético e terapêutico.",
-            image: "https://images.unsplash.com/photo-1536148935331-408321065b18?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-          },
-        ];
-        
-        const course = courses.find(c => c.id === courseId);
-        
-        if (course) {
-          form.reset({
-            title: course.title,
-            subtitle: course.subtitle,
-            type: course.type,
-            description: course.description,
-            image: course.image
-          });
-        } else {
-          toast.error("Curso não encontrado");
-          navigate("/admin/courses");
-        }
-        
+      try {
+        const course = await courseService.getCourse(courseId);
+        form.reset({
+          title: course.title,
+          subtitle: course.subtitle,
+          type: course.type,
+          description: course.description,
+          image: course.image
+        });
+      } catch (error) {
+        console.error("Error fetching course:", error);
+        toast.error("Erro ao carregar informações do curso");
+        navigate("/admin/courses");
+      } finally {
         setIsLoading(false);
-      }, 500);
+      }
     };
 
     fetchCourse();
   }, [courseId, form, navigate]);
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    if (!courseId) return;
     
-    // Simulate API call to update course
-    setTimeout(() => {
+    setIsLoading(true);
+    try {
+      await courseService.updateCourse(courseId, {
+        title: data.title,
+        subtitle: data.subtitle,
+        type: data.type,
+        description: data.description,
+        image: data.image
+      });
       toast.success("Curso atualizado com sucesso!");
-      setIsLoading(false);
       navigate("/admin/courses");
-    }, 1000);
+    } catch (error) {
+      console.error("Error updating course:", error);
+      toast.error("Erro ao atualizar curso");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
