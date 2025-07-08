@@ -1,16 +1,10 @@
-
 const About = () => {
-  return (
-    <section id="about" className="py-20 bg-botanical-white">
+  return <section id="about" className="py-20 bg-botanical-white">
       <div className="botanical-container">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           {/* Image */}
           <div className="lg:w-2/5 overflow-hidden rounded-lg">
-            <img 
-              src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" 
-              alt="Natureza brasileira" 
-              className="w-full h-auto object-cover aspect-[4/5]"
-            />
+            <img alt="Natureza brasileira" className="w-full h-auto object-cover aspect-[4/5]" src="/lovable-uploads/8c28f705-3c3c-4aff-af18-9a41d38b66b1.jpg" />
           </div>
           
           {/* Content */}
@@ -47,8 +41,6 @@ const About = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default About;
