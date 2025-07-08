@@ -21,7 +21,7 @@ const Hero = () => {
           <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl mb-6">
             Amanda D'Angelis
           </h1>
-          <p className="text-xl mb-8 max-w-xl mx-auto md:text-2xl px-[128px]">Pesquisa e Desenvolvimento em Bioativos do Brasil</p>
+          <p className="text-xl mb-8 max-w-xl mx-auto md:text-2xl px-0">Pesquisa e Desenvolvimento em Bioativos do Brasil</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="#about" className="botanical-button-primary">Conheça meu Trabalho</Link>
             <Link to="#shop" className="botanical-button-secondary">Visite a Loja</Link>
