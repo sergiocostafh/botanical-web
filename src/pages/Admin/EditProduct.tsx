@@ -20,7 +20,7 @@ const formSchema = z.object({
   }),
   category: z.string().min(1, "A categoria é obrigatória"),
   description: z.string().min(10, "A descrição deve ter pelo menos 10 caracteres"),
-  image: z.string().url("A URL da imagem deve ser válida")
+  image: z.string().min(1, "A imagem é obrigatória")
 });
 
 const EditProduct = () => {
@@ -51,7 +51,7 @@ const EditProduct = () => {
           price: product.price.toString(),
           category: product.category,
           description: product.description,
-          image: product.image
+          image: product.image || ""
         });
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -70,6 +70,7 @@ const EditProduct = () => {
     
     setIsLoading(true);
     try {
+      console.log("Updating product with data:", data);
       await productService.updateProduct(productId, {
         name: data.name,
         price: parseFloat(data.price),
@@ -88,7 +89,9 @@ const EditProduct = () => {
   };
 
   const handleImageUpload = (url: string) => {
-    form.setValue("image", url);
+    console.log("Image uploaded, setting form value:", url);
+    form.setValue("image", url, { shouldValidate: true });
+    form.clearErrors("image");
   };
 
   return (

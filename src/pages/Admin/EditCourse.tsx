@@ -18,7 +18,7 @@ const formSchema = z.object({
   subtitle: z.string().min(3, "O subtítulo deve ter pelo menos 3 caracteres"),
   type: z.string().min(3, "O tipo deve ser especificado"),
   description: z.string().min(10, "A descrição deve ter pelo menos 10 caracteres"),
-  image: z.string().url("A URL da imagem deve ser válida")
+  image: z.string().min(1, "A imagem é obrigatória")
 });
 
 const EditCourse = () => {
@@ -50,7 +50,7 @@ const EditCourse = () => {
           subtitle: course.subtitle,
           type: course.type,
           description: course.description,
-          image: course.image
+          image: course.image || ""
         });
       } catch (error) {
         console.error("Error fetching course:", error);
@@ -88,7 +88,9 @@ const EditCourse = () => {
   };
 
   const handleImageUpload = (url: string) => {
-    form.setValue("image", url);
+    console.log("Image uploaded, setting form value:", url);
+    form.setValue("image", url, { shouldValidate: true });
+    form.clearErrors("image");
   };
 
   return (
