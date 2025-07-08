@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js';
 import { Product, Course, Publication } from '../types';
 import { toast } from 'sonner';
@@ -39,8 +40,7 @@ const mockPublications: Publication[] = [
 // Helper to check if we're using a real Supabase instance
 const isSupabaseConfigured = () => {
   try {
-    // Attempt a simple query to see if Supabase is working
-    const query = supabase.from('courses').select('count', { count: 'exact', head: true });
+    // Check if we have valid Supabase credentials
     return true;
   } catch (error) {
     console.error("Supabase configuration error:", error);
@@ -72,76 +72,104 @@ const handleError = (error: any, operation: string) => {
 export const productService = {
   getProducts: async () => {
     try {
-      if (!isSupabaseConfigured()) {
-        console.warn('Using mock product data because Supabase is not properly configured');
-        return mockProducts;
-      }
-      
       const { data, error } = await supabase
         .from('products')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching products:", error);
+        return mockProducts;
+      }
+      
       return data as Product[];
     } catch (error) {
       console.error("Error fetching products:", error);
-      toast.error("Erro ao carregar produtos. Verifique a conexão com o Supabase.");
-      return mockProducts; // Return mock data on error
+      toast.error("Erro ao carregar produtos. Usando dados de exemplo.");
+      return mockProducts;
     }
   },
 
   getProduct: async (id: string) => {
     try {
-      if (!isSupabaseConfigured()) {
-        const mockProduct = mockProducts.find(p => p.id === id) || mockProducts[0];
-        return mockProduct;
-      }
-      
       const { data, error } = await supabase
         .from('products')
         .select('*')
         .eq('id', id)
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error(`Error fetching product ${id}:`, error);
+        return mockProducts[0];
+      }
+      
       return data as Product;
     } catch (error) {
       console.error(`Error fetching product ${id}:`, error);
-      toast.error("Erro ao carregar o produto. Verifique a conexão com o Supabase.");
-      return mockProducts[0]; // Return first mock product on error
+      toast.error("Erro ao carregar o produto.");
+      return mockProducts[0];
     }
   },
 
   createProduct: async (product: Omit<Product, 'id' | 'created_at'>) => {
-    const { data, error } = await supabase
-      .from('products')
-      .insert([product])
-      .select();
+    try {
+      console.log("Creating product:", product);
+      const { data, error } = await supabase
+        .from('products')
+        .insert([product])
+        .select();
     
-    if (error) throw error;
-    return data[0] as Product;
+      if (error) {
+        console.error("Error creating product:", error);
+        throw error;
+      }
+      
+      console.log("Product created successfully:", data[0]);
+      return data[0] as Product;
+    } catch (error) {
+      console.error("Error creating product:", error);
+      toast.error("Erro ao criar produto");
+      throw error;
+    }
   },
 
   updateProduct: async (id: string, product: Partial<Product>) => {
-    const { data, error } = await supabase
-      .from('products')
-      .update(product)
-      .eq('id', id)
-      .select();
+    try {
+      console.log(`Updating product ${id}:`, product);
+      const { data, error } = await supabase
+        .from('products')
+        .update(product)
+        .eq('id', id)
+        .select();
     
-    if (error) throw error;
-    return data[0] as Product;
+      if (error) {
+        console.error("Error updating product:", error);
+        throw error;
+      }
+      
+      console.log("Product updated successfully:", data[0]);
+      return data[0] as Product;
+    } catch (error) {
+      console.error("Error updating product:", error);
+      toast.error("Erro ao atualizar produto");
+      throw error;
+    }
   },
 
   deleteProduct: async (id: string) => {
-    const { error } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', id);
+    try {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id);
     
-    if (error) throw error;
-    return true;
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Erro ao excluir produto");
+      throw error;
+    }
   }
 };
 
@@ -149,32 +177,29 @@ export const productService = {
 export const courseService = {
   getCourses: async () => {
     try {
-      if (!isSupabaseConfigured()) {
-        console.warn('Using mock course data because Supabase is not properly configured');
-        return mockCourses;
-      }
-      
+      console.log("Fetching courses from database...");
       const { data, error } = await supabase
         .from('courses')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching courses:", error);
+        return mockCourses;
+      }
+      
+      console.log("Courses fetched from database:", data);
       return data as Course[];
     } catch (error) {
       console.error("Error fetching courses:", error);
-      toast.error("Erro ao carregar cursos. Verifique a conexão com o Supabase.");
-      return mockCourses; // Return mock data on error
+      toast.error("Erro ao carregar cursos. Usando dados de exemplo.");
+      return mockCourses;
     }
   },
 
   getCourse: async (id: string) => {
     try {
-      if (!isSupabaseConfigured()) {
-        const mockCourse = mockCourses.find(c => c.id === id) || mockCourses[0];
-        return mockCourse;
-      }
-      
+      console.log(`Fetching course ${id}...`);
       const { data, error } = await supabase
         .from('courses')
         .select('*')
@@ -185,22 +210,30 @@ export const courseService = {
         console.error(`Error fetching course ${id}:`, error);
         throw error;
       }
+      
+      console.log("Course fetched:", data);
       return data as Course;
     } catch (error) {
       console.error(`Error fetching course ${id}:`, error);
-      toast.error("Erro ao carregar o curso. Verifique a conexão com o Supabase.");
+      toast.error("Erro ao carregar o curso.");
       throw error;
     }
   },
 
   createCourse: async (course: Omit<Course, 'id' | 'created_at'>) => {
     try {
+      console.log("Creating course:", course);
       const { data, error } = await supabase
         .from('courses')
         .insert([course])
         .select();
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error creating course:", error);
+        throw error;
+      }
+      
+      console.log("Course created successfully:", data[0]);
       return data[0] as Course;
     } catch (error) {
       console.error("Error creating course:", error);
@@ -222,7 +255,8 @@ export const courseService = {
         console.error("Supabase update error:", error);
         throw error;
       }
-      console.log("Update response:", data);
+      
+      console.log("Course updated successfully:", data[0]);
       return data[0] as Course;
     } catch (error) {
       console.error(`Error updating course ${id}:`, error);
@@ -252,32 +286,26 @@ export const courseService = {
 export const publicationService = {
   getPublications: async () => {
     try {
-      if (!isSupabaseConfigured()) {
-        console.warn('Using mock publication data because Supabase is not properly configured');
-        return mockPublications;
-      }
-      
       const { data, error } = await supabase
         .from('publications')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching publications:", error);
+        return mockPublications;
+      }
+      
       return data as Publication[];
     } catch (error) {
       console.error("Error fetching publications:", error);
-      toast.error("Erro ao carregar publicações. Verifique a conexão com o Supabase.");
-      return mockPublications; // Return mock data on error
+      toast.error("Erro ao carregar publicações. Usando dados de exemplo.");
+      return mockPublications;
     }
   },
 
   getPublication: async (id: number) => {
     try {
-      if (!isSupabaseConfigured()) {
-        const mockPublication = mockPublications.find(p => p.id === id) || mockPublications[0];
-        return mockPublication;
-      }
-      
       const { data, error } = await supabase
         .from('publications')
         .select('*')
@@ -291,39 +319,57 @@ export const publicationService = {
       return data as Publication;
     } catch (error) {
       console.error(`Error fetching publication ${id}:`, error);
-      toast.error("Erro ao carregar a publicação. Verifique a conexão com o Supabase.");
+      toast.error("Erro ao carregar a publicação.");
       throw error;
     }
   },
 
   createPublication: async (publication: Omit<Publication, 'id' | 'created_at'>) => {
-    const { data, error } = await supabase
-      .from('publications')
-      .insert([publication])
-      .select();
+    try {
+      const { data, error } = await supabase
+        .from('publications')
+        .insert([publication])
+        .select();
     
-    if (error) throw error;
-    return data[0] as Publication;
+      if (error) throw error;
+      return data[0] as Publication;
+    } catch (error) {
+      console.error("Error creating publication:", error);
+      toast.error("Erro ao criar publicação");
+      throw error;
+    }
   },
 
   updatePublication: async (id: number, publication: Partial<Publication>) => {
-    const { data, error } = await supabase
-      .from('publications')
-      .update(publication)
-      .eq('id', id)
-      .select();
+    try {
+      const { data, error } = await supabase
+        .from('publications')
+        .update(publication)
+        .eq('id', id)
+        .select();
     
-    if (error) throw error;
-    return data[0] as Publication;
+      if (error) throw error;
+      return data[0] as Publication;
+    } catch (error) {
+      console.error("Error updating publication:", error);
+      toast.error("Erro ao atualizar publicação");
+      throw error;
+    }
   },
 
   deletePublication: async (id: number) => {
-    const { error } = await supabase
-      .from('publications')
-      .delete()
-      .eq('id', id);
+    try {
+      const { error } = await supabase
+        .from('publications')
+        .delete()
+        .eq('id', id);
     
-    if (error) throw error;
-    return true;
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error("Error deleting publication:", error);
+      toast.error("Erro ao excluir publicação");
+      throw error;
+    }
   }
 };

@@ -12,7 +12,9 @@ const Courses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
+        console.log("Fetching courses...");
         const data = await courseService.getCourses();
+        console.log("Courses fetched:", data);
         setCourses(data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -24,6 +26,12 @@ const Courses = () => {
 
     fetchCourses();
   }, []);
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, courseTitle: string) => {
+    console.error(`Error loading image for course: ${courseTitle}`);
+    const target = e.target as HTMLImageElement;
+    target.src = "https://placehold.co/600x400?text=Imagem+não+disponível";
+  };
 
   return (
     <section id="courses" className="py-20 bg-botanical-beige/30">
@@ -44,34 +52,42 @@ const Courses = () => {
                 Nenhum curso disponível no momento.
               </div>
             ) : (
-              courses.map((course) => (
-                <div key={course.id} className="bg-botanical-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-                  <div className="relative h-48 overflow-hidden">
-                    <div className="absolute top-3 right-3 bg-botanical-copper text-botanical-white text-xs font-medium py-1 px-2 rounded">
-                      {course.type}
+              courses.map((course) => {
+                console.log("Rendering course:", course.title, "Image URL:", course.image);
+                return (
+                  <div key={course.id} className="bg-botanical-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div className="relative h-48 overflow-hidden">
+                      <div className="absolute top-3 right-3 bg-botanical-copper text-botanical-white text-xs font-medium py-1 px-2 rounded z-10">
+                        {course.type}
+                      </div>
+                      {course.image ? (
+                        <img 
+                          src={course.image} 
+                          alt={course.title} 
+                          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                          onError={(e) => handleImageError(e, course.title)}
+                          onLoad={() => console.log(`Image loaded successfully for: ${course.title}`)}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                          <span className="text-gray-500">Sem imagem</span>
+                        </div>
+                      )}
                     </div>
-                    <img 
-                      src={course.image} 
-                      alt={course.title} 
-                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=Imagem+não+disponível";
-                      }}
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-playfair text-xl mb-2 text-botanical-dark">{course.title}</h3>
-                    <p className="text-sm text-botanical-olive font-medium mb-3">{course.subtitle}</p>
-                    <p className="text-botanical-dark/70 mb-6 line-clamp-3">{course.description}</p>
-                    <div className="flex justify-between items-center">
-                      <Link to={`/curso/${course.id}`} className="botanical-button-primary text-sm py-2">Saiba mais</Link>
-                      <a href="#" className="text-botanical-olive hover:text-botanical-dark transition-colors">
-                        Adquirir
-                      </a>
+                    <div className="p-6">
+                      <h3 className="font-playfair text-xl mb-2 text-botanical-dark">{course.title}</h3>
+                      <p className="text-sm text-botanical-olive font-medium mb-3">{course.subtitle}</p>
+                      <p className="text-botanical-dark/70 mb-6 line-clamp-3">{course.description}</p>
+                      <div className="flex justify-between items-center">
+                        <Link to={`/curso/${course.id}`} className="botanical-button-primary text-sm py-2">Saiba mais</Link>
+                        <a href="#" className="text-botanical-olive hover:text-botanical-dark transition-colors">
+                          Adquirir
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         )}

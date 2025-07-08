@@ -20,15 +20,33 @@ const ImageUpload = ({ onImageUpload, currentImage, className = "" }: ImageUploa
     try {
       setUploading(true);
       
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast.error("Por favor, selecione apenas arquivos de imagem");
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("A imagem deve ter no máximo 5MB");
+        return;
+      }
+      
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = fileName;
+
+      console.log("Uploading file:", fileName);
 
       const { error: uploadError } = await supabase.storage
         .from('images')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
       if (uploadError) {
+        console.error("Upload error:", uploadError);
         throw uploadError;
       }
 
@@ -36,11 +54,12 @@ const ImageUpload = ({ onImageUpload, currentImage, className = "" }: ImageUploa
         .from('images')
         .getPublicUrl(filePath);
 
+      console.log("Image uploaded successfully:", data.publicUrl);
       onImageUpload(data.publicUrl);
       toast.success("Imagem enviada com sucesso!");
     } catch (error) {
       console.error('Error uploading image:', error);
-      toast.error("Erro ao enviar imagem");
+      toast.error("Erro ao enviar imagem. Tente novamente.");
     } finally {
       setUploading(false);
     }
@@ -60,6 +79,8 @@ const ImageUpload = ({ onImageUpload, currentImage, className = "" }: ImageUploa
     const file = event.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
       await uploadImage(file);
+    } else {
+      toast.error("Por favor, selecione apenas arquivos de imagem");
     }
   };
 
@@ -74,6 +95,7 @@ const ImageUpload = ({ onImageUpload, currentImage, className = "" }: ImageUploa
 
   const removeImage = () => {
     onImageUpload('');
+    toast.success("Imagem removida");
   };
 
   return (
@@ -84,6 +106,10 @@ const ImageUpload = ({ onImageUpload, currentImage, className = "" }: ImageUploa
             src={currentImage} 
             alt="Preview" 
             className="w-full h-48 object-cover rounded-md border"
+            onError={(e) => {
+              console.error("Error loading image:", currentImage);
+              (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=Erro+ao+carregar+imagem";
+            }}
           />
           <Button
             type="button"
@@ -107,6 +133,9 @@ const ImageUpload = ({ onImageUpload, currentImage, className = "" }: ImageUploa
           <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <p className="text-gray-600 mb-4">
             Arraste uma imagem aqui ou clique para selecionar
+          </p>
+          <p className="text-sm text-gray-500 mb-4">
+            Formatos aceitos: JPG, PNG, GIF. Tamanho máximo: 5MB
           </p>
           <Input
             type="file"
