@@ -1,3 +1,4 @@
+
 const About = () => {
   return <section id="about" className="py-20 bg-botanical-white">
       <div className="botanical-container">
@@ -12,31 +13,17 @@ const About = () => {
             <h2 className="section-title">Quem é Amanda D'Angelis</h2>
             <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed">
               <p className="mb-4">
-                Possui graduação em Ciências Biológicas pela Universidade Federal do Paraná, 
-                Mestrado e Doutorado em Agronomia - Produção Vegetal pela Universidade Federal do Paraná 
-                e Pós-graduação em Inovação em Medicamentos da Biodiversidade, pela Fiocruz.
+                Amanda D'Angelis é doutora em Produção Vegetal e pós-graduada em Inovação em Medicamentos da Biodiversidade. Sua pesquisa é voltada para bioativos vegetais brasileiros, aromaterapia e desenvolvimento de formulações cosméticas naturais que valorizam a biodiversidade nacional.
               </p>
               <p className="mb-4">
-                É pesquisadora na área de etnobiodiversidade, plantas bioativas e cadeias de valor 
-                de óleos essenciais e vegetais no Brasil.
+                Desde 2022, compartilha seu conhecimento científico sobre ativos vegetais brasileiros aplicados à aromaterapia, ministrando cursos em importantes escolas como CasaMay, IBRA e institutos de pesquisa. Sua abordagem alia fundamentação científica rigorosa à aplicação prática, sempre respeitando princípios de segurança e eficácia.
+              </p>
+              <p className="mb-4">
+                É fundadora da Terroá Biocosmética, marca criada a partir de sua paixão por integrar ciência, natureza e cuidado. Na Terroá, desenvolve cosméticos naturais aromáticos ricos em ativos vegetais genuinamente brasileiros, combinando excelência científica e respeito à biodiversidade e saúde integral.
               </p>
               <p>
-                É fundadora da Terroá Biocosmética, que desenvolve cosméticos naturais ricos em ativos da flora brasileira.
+                Através de sua mentoria especializada, Amanda oferece um programa completo para profissionais, terapeutas e formuladores interessados em aprofundar seus conhecimentos sobre ativos vegetais brasileiros, sempre fundamentado em evidência científica e práticas sustentáveis.
               </p>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <div className="bg-botanical-light p-4 rounded-md flex-1 min-w-[180px]">
-                <div className="text-botanical-olive text-4xl font-playfair mb-2">10+</div>
-                <div className="text-botanical-dark">Anos de Pesquisa</div>
-              </div>
-              <div className="bg-botanical-light p-4 rounded-md flex-1 min-w-[180px]">
-                <div className="text-botanical-olive text-4xl font-playfair mb-2">15+</div>
-                <div className="text-botanical-dark">Óleos Essenciais Estudados</div>
-              </div>
-              <div className="bg-botanical-light p-4 rounded-md flex-1 min-w-[180px]">
-                <div className="text-botanical-olive text-4xl font-playfair mb-2">3+</div>
-                <div className="text-botanical-dark">Publicações Científicas</div>
-              </div>
             </div>
           </div>
         </div>
