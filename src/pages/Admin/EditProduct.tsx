@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { productService } from "@/lib/supabase";
+import ImageUpload from "@/components/ImageUpload";
 
 const formSchema = z.object({
   name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
@@ -86,6 +87,10 @@ const EditProduct = () => {
     }
   };
 
+  const handleImageUpload = (url: string) => {
+    form.setValue("image", url);
+  };
+
   return (
     <AdminLayout>
       <div className="flex justify-between items-center mb-6">
@@ -138,9 +143,7 @@ const EditProduct = () => {
                     </FormItem>
                   )}
                 />
-              </div>
 
-              <div className="space-y-6">
                 <FormField
                   control={form.control}
                   name="description"
@@ -158,36 +161,25 @@ const EditProduct = () => {
                     </FormItem>
                   )}
                 />
+              </div>
 
+              <div className="space-y-6">
                 <FormField
                   control={form.control}
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>URL da Imagem</FormLabel>
+                      <FormLabel>Imagem do Produto</FormLabel>
                       <FormControl>
-                        <Input placeholder="https://exemplo.com/imagem.jpg" {...field} />
+                        <ImageUpload
+                          onImageUpload={handleImageUpload}
+                          currentImage={field.value}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                {form.watch("image") && (
-                  <div className="mt-2">
-                    <p className="text-sm mb-2">Pré-visualização:</p>
-                    <div className="border rounded-md overflow-hidden h-40 bg-gray-50">
-                      <img 
-                        src={form.watch("image")} 
-                        alt="Pré-visualização" 
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=Erro+de+carregamento";
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
