@@ -1,6 +1,9 @@
+
 import { Instagram, Mail, Phone } from "lucide-react";
+
 const Footer = () => {
-  return <footer className="text-botanical-white pt-12 pb-6 bg-black">
+  return (
+    <footer className="text-botanical-white pt-12 pb-6 bg-black">
       <div className="botanical-container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand & Contact */}
@@ -30,6 +33,9 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#about" className="text-botanical-white/70 hover:text-botanical-white transition-colors">Quem Sou</a>
+              </li>
+              <li>
+                <a href="#mentoria" className="text-botanical-white/70 hover:text-botanical-white transition-colors">Mentoria</a>
               </li>
               <li>
                 <a href="#courses" className="text-botanical-white/70 hover:text-botanical-white transition-colors">Cursos</a>
@@ -69,6 +75,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;

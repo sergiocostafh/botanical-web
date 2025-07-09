@@ -44,6 +44,12 @@ const Header = () => {
             Sobre
           </Link>
           <Link
+            to="/#mentoria"
+            className="text-botanical-white hover:text-botanical-beige transition-colors"
+          >
+            Mentoria
+          </Link>
+          <Link
             to="/#courses"
             className="text-botanical-white hover:text-botanical-beige transition-colors"
           >
@@ -83,6 +89,13 @@ const Header = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Sobre
+            </Link>
+            <Link
+              to="/#mentoria"
+              className="text-botanical-white hover:text-botanical-beige transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Mentoria
             </Link>
             <Link
               to="/#courses"
