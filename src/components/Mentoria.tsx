@@ -10,42 +10,66 @@ const Mentoria = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Image */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+          {/* Content Box - O que você aprenderá */}
           <div className="order-2 lg:order-1">
-            <div className="overflow-hidden rounded-lg shadow-lg">
-              <img 
-                src="/lovable-uploads/8c28f705-3c3c-4aff-af18-9a41d38b66b1.jpg" 
-                alt="Mentoria em bioativos vegetais" 
-                className="w-full h-auto object-cover aspect-[4/3]"
-              />
+            <div className="bg-botanical-white rounded-lg p-8 shadow-sm h-full">
+              <h3 className="text-2xl font-playfair font-medium mb-6 text-botanical-dark">
+                O que você aprenderá
+              </h3>
+              <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed">
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span>Aspectos botânicos e ecológicos das espécies nativas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span>Composição fitoquímica e propriedades funcionais</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span>Estratégias para desenvolvimento de formulações</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span>Aplicações seguras em aromaterapia e cosmetologia natural</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span>Valorização da biodiversidade brasileira</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
-          {/* Content */}
+          {/* Content Box - Para Quem é a Mentoria */}
           <div className="order-1 lg:order-2">
-            <h3 className="text-2xl font-playfair font-medium mb-6 text-botanical-dark">
-              Para Quem é a Mentoria
-            </h3>
-            <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed">
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span><strong>Aromaterapeuta:</strong> que deseja se especializar em óleos essenciais brasileiros e suas aplicações terapêuticas específicas</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span><strong>Formuladores de cosméticos:</strong> interessados em incorporar ativos vegetais nativos em suas formulações</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span><strong>Profissionais da saúde:</strong> que buscam integrar terapias naturais baseadas na flora brasileira</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span><strong>Empreendedores:</strong> que desejam desenvolver produtos naturais com base científica sólida</span>
-                </li>
-              </ul>
+            <div className="bg-botanical-white rounded-lg p-8 shadow-sm h-full">
+              <h3 className="text-2xl font-playfair font-medium mb-6 text-botanical-dark">
+                Para Quem é a Mentoria
+              </h3>
+              <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed">
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span><strong>Aromaterapeuta:</strong> que deseja se especializar em óleos essenciais brasileiros e suas aplicações terapêuticas específicas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span><strong>Formuladores de cosméticos:</strong> interessados em incorporar ativos vegetais nativos em suas formulações</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span><strong>Profissionais da saúde:</strong> que buscam integrar terapias naturais baseadas na flora brasileira</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span><strong>Empreendedores:</strong> que desejam desenvolver produtos naturais com base científica sólida</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
