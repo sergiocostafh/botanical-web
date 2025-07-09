@@ -265,6 +265,33 @@ export const courseService = {
     }
   },
 
+  updateCourseByTitle: async (title: string, course: Partial<Course>) => {
+    try {
+      console.log(`Updating course "${title}" with:`, course);
+      const { data, error } = await supabase
+        .from('courses')
+        .update(course)
+        .eq('title', title)
+        .select();
+      
+      if (error) {
+        console.error("Supabase update error:", error);
+        throw error;
+      }
+      
+      if (!data || data.length === 0) {
+        throw new Error(`Course with title "${title}" not found`);
+      }
+      
+      console.log("Course updated successfully:", data[0]);
+      return data[0] as Course;
+    } catch (error) {
+      console.error(`Error updating course "${title}":`, error);
+      toast.error(`Erro ao atualizar curso "${title}"`);
+      throw error;
+    }
+  },
+
   deleteCourse: async (id: string) => {
     try {
       const { error } = await supabase
