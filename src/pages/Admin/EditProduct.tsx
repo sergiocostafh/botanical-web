@@ -19,7 +19,7 @@ const formSchema = z.object({
   }),
   category: z.string().min(1, "A categoria é obrigatória"),
   description: z.string().min(10, "A descrição deve ter pelo menos 10 caracteres"),
-  image: z.string().url("Insira uma URL válida para a imagem").or(z.literal(""))
+  image: z.string().url("Insira uma URL válida para a imagem").optional().or(z.literal(""))
 });
 
 const EditProduct = () => {
@@ -75,7 +75,7 @@ const EditProduct = () => {
         price: parseFloat(data.price),
         category: data.category,
         description: data.description,
-        image: data.image
+        image: data.image || ""
       });
       toast.success("Produto atualizado com sucesso!");
       navigate("/admin/products");

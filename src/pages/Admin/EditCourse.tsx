@@ -17,7 +17,7 @@ const formSchema = z.object({
   subtitle: z.string().min(3, "O subtítulo deve ter pelo menos 3 caracteres"),
   type: z.string().min(3, "O tipo deve ser especificado"),
   description: z.string().min(10, "A descrição deve ter pelo menos 10 caracteres"),
-  image: z.string().url("Insira uma URL válida para a imagem").or(z.literal(""))
+  image: z.string().url("Insira uma URL válida para a imagem").optional().or(z.literal(""))
 });
 
 const EditCourse = () => {
@@ -74,7 +74,7 @@ const EditCourse = () => {
         subtitle: data.subtitle,
         type: data.type,
         description: data.description,
-        image: data.image
+        image: data.image || ""
       });
       toast.success("Curso atualizado com sucesso!");
       navigate("/admin/courses");
