@@ -1,4 +1,6 @@
 
+import { Leaf, Flask, Lightbulb, Shield, Heart } from "lucide-react";
+
 const Mentoria = () => {
   return (
     <section id="mentoria" className="py-20 bg-botanical-light">
@@ -10,33 +12,33 @@ const Mentoria = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mb-16">
           {/* Content Box - O que você aprenderá */}
           <div className="order-2 lg:order-1">
-            <div className="bg-botanical-white rounded-lg p-8 shadow-sm h-full">
+            <div className="bg-botanical-white rounded-lg p-8 shadow-sm h-full flex flex-col">
               <h3 className="text-2xl font-playfair font-medium mb-6 text-botanical-dark">
                 O que você aprenderá
               </h3>
-              <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed">
-                <ul className="space-y-3">
+              <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed flex-grow">
+                <ul className="space-y-4">
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <Leaf className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Aspectos botânicos e ecológicos das espécies nativas</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <Flask className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Composição fitoquímica e propriedades funcionais</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <Lightbulb className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Estratégias para desenvolvimento de formulações</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <Shield className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Aplicações seguras em aromaterapia e cosmetologia natural</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <Heart className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Valorização da biodiversidade brasileira</span>
                   </li>
                 </ul>
@@ -46,11 +48,11 @@ const Mentoria = () => {
 
           {/* Content Box - Para Quem é a Mentoria */}
           <div className="order-1 lg:order-2">
-            <div className="bg-botanical-white rounded-lg p-8 shadow-sm h-full">
+            <div className="bg-botanical-white rounded-lg p-8 shadow-sm h-full flex flex-col">
               <h3 className="text-2xl font-playfair font-medium mb-6 text-botanical-dark">
                 Para Quem é a Mentoria
               </h3>
-              <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed">
+              <div className="prose prose-lg max-w-none text-botanical-dark/80 leading-relaxed flex-grow">
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
