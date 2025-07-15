@@ -1,5 +1,6 @@
 
 import { Leaf, Beaker, Lightbulb, Shield, Heart } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const Mentoria = () => {
   return (
@@ -80,71 +81,47 @@ const Mentoria = () => {
           </div>
         </div>
 
-        {/* What's Included Section */}
+        {/* Depoimentos Section */}
         <div className="bg-botanical-white rounded-lg p-8 shadow-sm mb-12">
           <h3 className="text-2xl font-playfair font-medium mb-8 text-botanical-dark text-center">
-            O Que Está Incluído na Mentoria
+            Depoimentos
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-botanical-olive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📚</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Depoimento 1 - Samantha Scardazan */}
+            <div className="bg-botanical-light rounded-lg p-6">
+              <div className="flex items-center mb-4">
+                <Avatar className="w-16 h-16 mr-4">
+                  <AvatarImage src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=64&h=64&fit=crop&crop=face" alt="Samantha Scardazan" />
+                  <AvatarFallback className="bg-botanical-olive text-botanical-white font-medium">SS</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h4 className="font-semibold text-botanical-dark">Samantha Scardazan</h4>
+                  <p className="text-sm text-botanical-dark/70">Terapeuta Integrativa e Esteticista Natural. Especialista em Psicodermatoses e Peles Sensíveis</p>
+                </div>
               </div>
-              <h4 className="font-semibold text-botanical-dark mb-2">Material Científico Exclusivo</h4>
-              <p className="text-botanical-dark/70 text-sm">
-                Conteúdo baseado em pesquisas atuais sobre bioativos da flora brasileira
-              </p>
+              <blockquote className="text-botanical-dark/80 italic leading-relaxed">
+                "Estou encantada! A prof dra. Amanda e dona de uma inteligência absoluta, simplicidade, conhecimento e leveza. Ela fez a chave e abriu um caminho que só espiávamos pelo buraco da fechadura. Aprofundei o estudo dos óleos essenciais que já estão na minha prática e coração."
+              </blockquote>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-botanical-olive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🔬</span>
+            {/* Depoimento 2 - Carol Oliver */}
+            <div className="bg-botanical-light rounded-lg p-6">
+              <div className="flex items-center mb-4">
+                <Avatar className="w-16 h-16 mr-4">
+                  <AvatarImage src="https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=64&h=64&fit=crop&crop=face" alt="Carol Oliver" />
+                  <AvatarFallback className="bg-botanical-olive text-botanical-white font-medium">CO</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h4 className="font-semibold text-botanical-dark">Carol Oliver</h4>
+                  <p className="text-sm text-botanical-dark/70">Naturopata, dedicada à Aromaterapia Clínica e Vibracional e Florais de Bach. Criadora da Insight Aromas</p>
+                </div>
               </div>
-              <h4 className="font-semibold text-botanical-dark mb-2">Análise de Casos Reais</h4>
-              <p className="text-botanical-dark/70 text-sm">
-                Estudos de aplicação prática com resultados comprovados
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-botanical-olive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">👥</span>
-              </div>
-              <h4 className="font-semibold text-botanical-dark mb-2">Acompanhamento Individual</h4>
-              <p className="text-botanical-dark/70 text-sm">
-                Orientação personalizada para seus projetos específicos
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-botanical-olive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🌿</span>
-              </div>
-              <h4 className="font-semibold text-botanical-dark mb-2">Banco de Ativos Vegetais</h4>
-              <p className="text-botanical-dark/70 text-sm">
-                Acesso exclusivo ao banco de dados de plantas medicinais brasileiras
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-botanical-olive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🧪</span>
-              </div>
-              <h4 className="font-semibold text-botanical-dark mb-2">Protocolos de Formulação</h4>
-              <p className="text-botanical-dark/70 text-sm">
-                Métodos práticos para desenvolvimento de produtos naturais
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-botanical-olive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📋</span>
-              </div>
-              <h4 className="font-semibold text-botanical-dark mb-2">Certificado de Conclusão</h4>
-              <p className="text-botanical-dark/70 text-sm">
-                Reconhecimento oficial da sua especialização
-              </p>
+              <blockquote className="text-botanical-dark/80 italic leading-relaxed">
+                "Tive a maravilhosa oportunidade de aprofundar meus conhecimentos sobre Aromaterapia e óleos essenciais de uma maneira muito especial. Fiz um curso sobre óleos essenciais brasileiros com a Amanda D'angelis, bióloga, doutora em produção vegetal e amante da Aromaterapia brasileira. Tema de sua tese de doutorado, Amanda está compartilhando esse rico conhecimento com o mundo. ❤️
+                Me encantei e me surpreendi com o potencial terapêutico das plantas aromáticas do nosso país. Os óleos essenciais brasileiros revelam a força curativa da natureza nativa do nosso país. Trazem a magia e a energia ancestral da floresta brasileira.
+                Com esse transformador conhecimento em mãos, tomei uma sábia decisão. Reformulei a linha Alquimias Insight, incluindo óleos essenciais brasileiros em sua composição. Agora, a alquimia está completa!"
+              </blockquote>
             </div>
           </div>
         </div>
