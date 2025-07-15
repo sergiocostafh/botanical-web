@@ -1,4 +1,3 @@
-
 import { Leaf, Beaker, Lightbulb, Shield, Heart } from "lucide-react";
 
 const Mentoria = () => {
@@ -56,7 +55,7 @@ const Mentoria = () => {
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span><strong>Aromaterapeutas:</strong> que desejam se especializar em óleos essenciais brasileiros e suas aplicações terapêuticas específicas</span>
+                    <span><strong>Aromaterapeutas:</strong> que desejam se especializar em óleos essenciais brasileiros e suas aplicações terapêuticas</span>
                   </li>
                   <li className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
