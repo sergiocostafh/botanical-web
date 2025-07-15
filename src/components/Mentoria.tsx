@@ -1,3 +1,4 @@
+
 import { Leaf, Beaker, Lightbulb, Shield, Heart } from "lucide-react";
 
 const Mentoria = () => {
@@ -23,6 +24,10 @@ const Mentoria = () => {
                   <li className="flex items-start">
                     <Leaf className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Aspectos botânicos e ecológicos das espécies nativas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Leaf className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
+                    <span>Características e aplicações de óleos essenciais, manteigas e óleos vegetais da flora brasileira</span>
                   </li>
                   <li className="flex items-start">
                     <Beaker className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
