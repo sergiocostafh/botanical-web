@@ -1,5 +1,5 @@
 
-import { Leaf, Flask, Lightbulb, Shield, Heart } from "lucide-react";
+import { Leaf, Beaker, Lightbulb, Shield, Heart } from "lucide-react";
 
 const Mentoria = () => {
   return (
@@ -26,7 +26,7 @@ const Mentoria = () => {
                     <span>Aspectos botânicos e ecológicos das espécies nativas</span>
                   </li>
                   <li className="flex items-start">
-                    <Flask className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
+                    <Beaker className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Composição fitoquímica e propriedades funcionais</span>
                   </li>
                   <li className="flex items-start">
