@@ -1,4 +1,4 @@
-import { Leaf, Beaker, Lightbulb, Shield, Heart } from "lucide-react";
+import { Leaf, Beaker, Lightbulb, Shield, Heart, Droplet } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 const Mentoria = () => {
   return <section id="mentoria" className="py-20 bg-botanical-light">
@@ -24,7 +24,7 @@ const Mentoria = () => {
                     <span>Aspectos botânicos e ecológicos das espécies nativas</span>
                   </li>
                   <li className="flex items-start">
-                    <Leaf className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
+                    <Droplet className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
                     <span>Características e aplicações de óleos essenciais, manteigas e óleos vegetais da flora brasileira</span>
                   </li>
                   <li className="flex items-start">
