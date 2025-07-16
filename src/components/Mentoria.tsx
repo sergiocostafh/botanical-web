@@ -25,7 +25,7 @@ const Mentoria = () => {
                   </li>
                   <li className="flex items-start">
                     <Droplet className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
-                    <span>Óleos essenciais, manteigas e óleos vegetais da flora brasileira</span>
+                    <span>Óleos essenciais, manteigas e óleos vegetais brasileiros</span>
                   </li>
                   <li className="flex items-start">
                     <Beaker className="w-5 h-5 text-botanical-olive mt-1 mr-3 flex-shrink-0" />
