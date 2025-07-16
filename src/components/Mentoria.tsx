@@ -1,10 +1,7 @@
-
 import { Leaf, Beaker, Lightbulb, Shield, Heart } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-
 const Mentoria = () => {
-  return (
-    <section id="mentoria" className="py-20 bg-botanical-light">
+  return <section id="mentoria" className="py-20 bg-botanical-light">
       <div className="botanical-container">
         <div className="text-center mb-16">
           <h2 className="section-title text-center">Mentoria Especializada</h2>
@@ -109,7 +106,7 @@ const Mentoria = () => {
             <div className="bg-botanical-light rounded-lg p-6">
               <div className="flex items-center mb-4">
                 <Avatar className="w-20 h-20 mr-4">
-                  <AvatarImage src="/lovable-uploads/caac5c3a-8c0b-43b5-b927-eff30ae4a291.png" alt="Carol Oliver" />
+                  <AvatarImage alt="Carol Oliver" src="/lovable-uploads/1af46edd-db7e-4d8c-bddf-d6ad2d89a229.jpg" />
                   <AvatarFallback className="bg-botanical-olive text-botanical-white font-medium">CO</AvatarFallback>
                 </Avatar>
                 <div>
@@ -137,8 +134,6 @@ const Mentoria = () => {
           </button>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Mentoria;
