@@ -109,7 +109,7 @@ const Mentoria = () => {
             <div className="bg-botanical-light rounded-lg p-6">
               <div className="flex items-center mb-4">
                 <Avatar className="w-16 h-16 mr-4">
-                  <AvatarImage src="https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=64&h=64&fit=crop&crop=face" alt="Carol Oliver" />
+                  <AvatarImage src="/lovable-uploads/caac5c3a-8c0b-43b5-b927-eff30ae4a291.png" alt="Carol Oliver" />
                   <AvatarFallback className="bg-botanical-olive text-botanical-white font-medium">CO</AvatarFallback>
                 </Avatar>
                 <div>
