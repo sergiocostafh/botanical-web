@@ -70,7 +70,7 @@ const Mentoria = () => {
                   </li>
                   <li className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-botanical-olive rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span><strong>Empreendedores:</strong> que desejam desenvolver produtos naturais com base científica sólida</span>
+                    <span><strong>Empreendedores:</strong> que desejam desenvolver linhas de produtos naturais com segurança e eficácia</span>
                   </li>
                 </ul>
               </div>
