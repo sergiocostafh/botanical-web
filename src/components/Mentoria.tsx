@@ -118,9 +118,7 @@ const Mentoria = () => {
                 </div>
               </div>
               <blockquote className="text-botanical-dark/80 italic leading-relaxed">
-                "Tive a maravilhosa oportunidade de aprofundar meus conhecimentos sobre Aromaterapia e óleos essenciais de uma maneira muito especial. Fiz um curso sobre óleos essenciais brasileiros com a Amanda D'angelis, bióloga, doutora em produção vegetal e amante da Aromaterapia brasileira. Tema de sua tese de doutorado, Amanda está compartilhando esse rico conhecimento com o mundo. ❤️
-                Me encantei e me surpreendi com o potencial terapêutico das plantas aromáticas do nosso país. Os óleos essenciais brasileiros revelam a força curativa da natureza nativa do nosso país. Trazem a magia e a energia ancestral da floresta brasileira.
-                Com esse transformador conhecimento em mãos, tomei uma sábia decisão. Reformulei a linha Alquimias Insight, incluindo óleos essenciais brasileiros em sua composição. Agora, a alquimia está completa!"
+                "Tive a maravilhosa oportunidade de aprofundar meus conhecimentos sobre óleos essenciais do Brasil de uma maneira muito especial com a Amanda D'angelis. Me encantei e me surpreendi com o potencial terapêutico das plantas aromáticas do nosso país. Os óleos essenciais brasileiros revelam a força curativa da natureza nativa do nosso país. Trazem a magia e a energia ancestral da floresta brasileira. Com esse transformador conhecimento em mãos, tomei a sábia decisão de reformular a linha Alquimias Insight, incluindo óleos essenciais brasileiros. Agora, a alquimia está completa!"
               </blockquote>
             </div>
           </div>
