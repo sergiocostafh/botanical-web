@@ -88,7 +88,7 @@ const Mentoria = () => {
             {/* Depoimento 1 - Samantha Scardazan */}
             <div className="bg-botanical-light rounded-lg p-6">
               <div className="flex items-center mb-4">
-                <Avatar className="w-16 h-16 mr-4">
+                <Avatar className="w-20 h-20 mr-4">
                   <AvatarImage alt="Samantha Scardazan" src="/lovable-uploads/5a0f35b3-5645-4792-aa6e-3c635e0c1f14.jpg" />
                   <AvatarFallback className="bg-botanical-olive text-botanical-white font-medium">SS</AvatarFallback>
                 </Avatar>
