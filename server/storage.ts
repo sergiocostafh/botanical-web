@@ -19,14 +19,14 @@ import { db } from './db';
 import { eq } from 'drizzle-orm';
 
 export interface IStorage {
-  // User methods for Replit Auth
+  // User methods for Google Auth
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
   
   // Admin methods
-  isUserAdmin(userId: string): Promise<boolean>;
+  isUserAdmin(email: string): Promise<boolean>;
   addAdminUser(adminUser: InsertAdminUser): Promise<AdminUser>;
-  removeAdminUser(userId: string): Promise<boolean>;
+  removeAdminUser(email: string): Promise<boolean>;
   getAdminUsers(): Promise<AdminUser[]>;
   
   // Course methods
@@ -77,18 +77,27 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Admin methods
-  async isUserAdmin(userId: string): Promise<boolean> {
-    const result = await db.select().from(adminUsers).where(eq(adminUsers.userId, userId));
+  async isUserAdmin(email: string): Promise<boolean> {
+    const result = await db.select().from(adminUsers).where(eq(adminUsers.email, email));
     return result.length > 0;
   }
 
   async addAdminUser(adminUser: InsertAdminUser): Promise<AdminUser> {
-    const result = await db.insert(adminUsers).values(adminUser).returning();
-    return result[0];
+    try {
+      const result = await db.insert(adminUsers).values(adminUser).returning();
+      return result[0];
+    } catch (error) {
+      // If user already exists, return existing
+      const existing = await db.select().from(adminUsers).where(eq(adminUsers.email, adminUser.email));
+      if (existing.length > 0) {
+        return existing[0];
+      }
+      throw error;
+    }
   }
 
-  async removeAdminUser(userId: string): Promise<boolean> {
-    const result = await db.delete(adminUsers).where(eq(adminUsers.userId, userId)).returning();
+  async removeAdminUser(email: string): Promise<boolean> {
+    const result = await db.delete(adminUsers).where(eq(adminUsers.email, email)).returning();
     return result.length > 0;
   }
 

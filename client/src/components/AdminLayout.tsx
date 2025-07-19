@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -10,18 +11,31 @@ interface AdminLayoutProps {
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("adminAuth");
-    toast.success("Logout realizado com sucesso");
-    setLocation("/admin/login");
+    window.location.href = "/api/auth/logout";
   };
 
   const SidebarContent = () => (
     <>
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div className="flex items-center flex-shrink-0 px-4">
-          <h1 className="text-xl font-playfair font-bold text-white">Painel Admin</h1>
+          <div className="flex items-center">
+            {user?.profileImageUrl && (
+              <img 
+                src={user.profileImageUrl} 
+                alt={`${user.firstName || 'Admin'}'s avatar`}
+                className="w-8 h-8 rounded-full mr-3 object-cover"
+              />
+            )}
+            <div>
+              <h1 className="text-xl font-playfair font-bold text-white">Painel Admin</h1>
+              {user?.email && (
+                <p className="text-xs text-botanical-white/70">{user.email}</p>
+              )}
+            </div>
+          </div>
         </div>
         <nav className="mt-5 flex-1 px-2 space-y-1">
           <Link

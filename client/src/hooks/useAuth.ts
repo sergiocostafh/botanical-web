@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-interface AuthUser {
+interface User {
   id: string;
-  email: string;
+  email?: string;
   firstName?: string;
   lastName?: string;
   profileImageUrl?: string;
@@ -10,16 +10,16 @@ interface AuthUser {
 }
 
 export function useAuth() {
-  const { data: user, isLoading } = useQuery<AuthUser>({
+  const { data: user, isLoading, error } = useQuery<User>({
     queryKey: ["/api/auth/user"],
     retry: false,
-    enabled: true,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   return {
     user,
     isLoading,
-    isAuthenticated: !!user,
-    isAdmin: user?.isAdmin || false,
+    isAuthenticated: !!user && !error,
+    isAdmin: !!user?.isAdmin,
   };
 }

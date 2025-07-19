@@ -27,7 +27,7 @@ export const users = pgTable("users", {
 export const adminUsers = pgTable("admin_users", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
