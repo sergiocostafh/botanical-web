@@ -16,7 +16,7 @@ import {
   type InsertPublication 
 } from "@shared/schema";
 import { db } from './db';
-import { eq } from 'drizzle-orm';
+import { eq, or, ilike } from 'drizzle-orm';
 
 export interface IStorage {
   // User methods for Google Auth
@@ -28,6 +28,11 @@ export interface IStorage {
   addAdminUser(adminUser: InsertAdminUser): Promise<AdminUser>;
   removeAdminUser(email: string): Promise<boolean>;
   getAdminUsers(): Promise<AdminUser[]>;
+  
+  // Search methods
+  searchCourses(searchTerm: string): Promise<Course[]>;
+  searchProducts(searchTerm: string): Promise<Product[]>;
+  searchPublications(searchTerm: string): Promise<Publication[]>;
   
   // Course methods
   getCourses(): Promise<Course[]>;
@@ -103,6 +108,41 @@ export class DatabaseStorage implements IStorage {
 
   async getAdminUsers(): Promise<AdminUser[]> {
     return await db.select().from(adminUsers);
+  }
+
+  // Search methods
+  async searchCourses(searchTerm: string): Promise<Course[]> {
+    return await db.select().from(courses)
+      .where(
+        or(
+          ilike(courses.title, searchTerm),
+          ilike(courses.subtitle, searchTerm),
+          ilike(courses.description, searchTerm)
+        )
+      );
+  }
+
+  async searchProducts(searchTerm: string): Promise<Product[]> {
+    return await db.select().from(products)
+      .where(
+        or(
+          ilike(products.name, searchTerm),
+          ilike(products.description, searchTerm),
+          ilike(products.category, searchTerm)
+        )
+      );
+  }
+
+  async searchPublications(searchTerm: string): Promise<Publication[]> {
+    return await db.select().from(publications)
+      .where(
+        or(
+          ilike(publications.title, searchTerm),
+          ilike(publications.authors, searchTerm),
+          ilike(publications.abstract, searchTerm),
+          ilike(publications.journal, searchTerm)
+        )
+      );
   }
   
   // Course methods

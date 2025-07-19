@@ -18,15 +18,16 @@ Educational and e-commerce platform for botanical research and bioactive compoun
   - Replaced react-router-dom with wouter routing library
   - Fixed all major component routing imports and hooks
   - Database schema successfully synced with `npm run db:push`
-  - **Implemented Replit OAuth Authentication System**:
-    - Added secure admin authentication using Replit OpenID Connect
+  - **Implemented Google OAuth Authentication System**:
+    - Added secure admin authentication using Google OAuth 2.0
+    - Primary admin: sergio.vscf@gmail.com with full admin privileges
     - Created admin permission management system with database-backed user control
     - Protected all admin routes with proper authentication middleware
     - Implemented user session management with PostgreSQL storage
-    - Created AdminPortal page for secure admin access
+    - Created fallback login system (admin/admin123) for development
     - Added user management interface in admin panel
   - **Security Enhancements**:
-    - All admin operations require authenticated Replit user with admin permissions
+    - All admin operations require authenticated Google user with admin permissions
     - Session-based authentication with automatic token refresh
     - Admin user permissions stored securely in database
     - Proper error handling for unauthorized access attempts

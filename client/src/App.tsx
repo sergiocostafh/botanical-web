@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminCourses from "./pages/Admin/Courses";
 import AdminProducts from "./pages/Admin/Products";
 import AdminPublications from "./pages/Admin/Publications";
+import AdminSearch from "./pages/Admin/Search";
 import EditCourse from "./pages/Admin/EditCourse";
 import EditProduct from "./pages/Admin/EditProduct";
 import EditPublication from "./pages/Admin/EditPublication";
@@ -70,6 +71,11 @@ const App = () => (
             <Route path="/admin/publications/edit/:publicationId">
               <ProtectedRoute>
                 <EditPublication />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/search">
+              <ProtectedRoute>
+                <AdminSearch />
               </ProtectedRoute>
             </Route>
             

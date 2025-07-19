@@ -50,10 +50,14 @@ export async function setupGoogleAuth(app: Express) {
   app.use(passport.session());
 
   // Configure Google Strategy
+  const callbackURL = process.env.NODE_ENV === 'production' 
+    ? `https://${process.env.REPLIT_DOMAINS}/api/auth/google/callback`
+    : `https://${process.env.REPLIT_DOMAINS}/api/auth/google/callback`;
+    
   passport.use(new GoogleStrategy({
     clientID: clientId,
     clientSecret: clientSecret,
-    callbackURL: "/api/auth/google/callback"
+    callbackURL: callbackURL
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const email = profile.emails?.[0]?.value;
@@ -113,17 +117,23 @@ export async function setupGoogleAuth(app: Express) {
   });
 
   // Routes
-  app.get("/api/auth/google", 
+  app.get("/api/auth/google", (req, res, next) => {
+    console.log("Starting Google OAuth flow...");
+    console.log("Callback URL configured:", callbackURL);
     passport.authenticate("google", { 
-      scope: ["profile", "email"] 
-    })
-  );
+      scope: ["profile", "email"],
+      accessType: 'offline',
+      prompt: 'consent'
+    })(req, res, next);
+  });
 
   app.get("/api/auth/google/callback",
     passport.authenticate("google", { 
-      failureRedirect: "/admin/login?error=unauthorized" 
+      failureRedirect: "/admin/login?error=unauthorized",
+      session: true
     }),
     (req, res) => {
+      console.log("Google OAuth callback successful for user:", req.user);
       res.redirect("/admin/dashboard");
     }
   );

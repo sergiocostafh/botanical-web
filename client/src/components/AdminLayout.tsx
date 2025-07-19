@@ -3,6 +3,7 @@ import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import SmartSearch from "@/components/SmartSearch";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,24 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const handleLogout = () => {
     window.location.href = "/api/auth/logout";
+  };
+
+  const handleSearchNavigate = (type: string, id: string) => {
+    let route = "";
+    switch (type) {
+      case 'course':
+        route = `/admin/courses`;
+        break;
+      case 'product':
+        route = `/admin/products`;
+        break;
+      case 'publication':
+        route = `/admin/publications`;
+        break;
+    }
+    if (route) {
+      setLocation(route);
+    }
   };
 
   const SidebarContent = () => (
@@ -61,6 +80,12 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             className="text-botanical-white hover:bg-botanical-olive group flex items-center px-2 py-2 text-sm font-medium rounded-md"
           >
             Publicações
+          </Link>
+          <Link
+            to="/admin/search"
+            className="text-botanical-white hover:bg-botanical-olive group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+          >
+            Busca Inteligente
           </Link>
         </nav>
       </div>
@@ -127,6 +152,17 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           </button>
         </div>
         <main className="flex-1 pb-8">
+          {/* Search bar for admin */}
+          <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4">
+              <SmartSearch 
+                onNavigate={handleSearchNavigate}
+                placeholder="Buscar cursos, produtos ou publicações..."
+                className="max-w-lg"
+              />
+            </div>
+          </div>
+          
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               {children}
