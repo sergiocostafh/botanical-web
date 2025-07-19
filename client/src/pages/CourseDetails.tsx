@@ -59,6 +59,12 @@ const CourseDetails = () => {
     );
   }
 
+  const handlePurchase = () => {
+    if (course.paymentLink) {
+      window.open(course.paymentLink, "_blank");
+    }
+  };
+
   const handleContact = () => {
     window.open("https://wa.me/5500000000000?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20" + encodeURIComponent(course.title), "_blank");
   };
@@ -98,9 +104,15 @@ const CourseDetails = () => {
                 </div>
               </div>
               
-              <button onClick={handleContact} className="botanical-button-primary w-full sm:w-auto mb-6">
-                Quero me inscrever
-              </button>
+              {course.paymentLink ? (
+                <button onClick={handlePurchase} className="botanical-button-primary w-full sm:w-auto mb-6">
+                  Comprar curso
+                </button>
+              ) : (
+                <button onClick={handleContact} className="botanical-button-outline w-full sm:w-auto mb-6">
+                  Entrar em contato
+                </button>
+              )}
               
               <div className="mt-10">
                 <h2 className="text-2xl font-playfair mb-4">Sobre este curso</h2>

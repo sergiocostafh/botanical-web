@@ -15,6 +15,7 @@ export const courses = pgTable("courses", {
   type: text("type").notNull(),
   description: text("description").notNull(),
   image: text("image").notNull(),
+  paymentLink: text("payment_link"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

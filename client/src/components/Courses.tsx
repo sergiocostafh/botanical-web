@@ -79,9 +79,18 @@ const Courses = () => {
                       <p className="text-sm text-botanical-olive font-medium mb-4">{course.subtitle}</p>
                       <div className="flex justify-between items-center">
                         <Link to={`/curso/${course.id}`} className="botanical-button-primary text-sm py-2">Saiba mais</Link>
-                        <a href="#" className="text-botanical-olive hover:text-botanical-dark transition-colors">
-                          Adquirir
-                        </a>
+                        {course.paymentLink ? (
+                          <a 
+                            href={course.paymentLink} 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-botanical-olive hover:text-botanical-dark transition-colors font-medium"
+                          >
+                            Comprar curso
+                          </a>
+                        ) : (
+                          <span className="text-gray-400">Em breve</span>
+                        )}
                       </div>
                     </div>
                   </div>

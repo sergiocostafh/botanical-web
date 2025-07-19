@@ -18,7 +18,8 @@ const formSchema = z.object({
   subtitle: z.string().min(3, "O subtítulo deve ter pelo menos 3 caracteres"),
   type: z.string().min(3, "O tipo deve ser especificado"),
   description: z.string().min(10, "A descrição deve ter pelo menos 10 caracteres"),
-  image: z.string().url("Insira uma URL válida para a imagem").optional().or(z.literal(""))
+  image: z.string().url("Insira uma URL válida para a imagem").optional().or(z.literal("")),
+  paymentLink: z.string().url("Insira uma URL válida para o pagamento").optional().or(z.literal(""))
 });
 
 const EditCourse = () => {
@@ -51,7 +52,8 @@ const EditCourse = () => {
       subtitle: "",
       type: "",
       description: "",
-      image: ""
+      image: "",
+      paymentLink: ""
     }
   });
 
@@ -68,7 +70,8 @@ const EditCourse = () => {
           subtitle: course.subtitle,
           type: course.type,
           description: course.description,
-          image: course.image || ""
+          image: course.image || "",
+          paymentLink: course.paymentLink || ""
         });
       } catch (error) {
         console.error("Error fetching course:", error);
@@ -93,7 +96,8 @@ const EditCourse = () => {
         subtitle: data.subtitle,
         type: data.type,
         description: data.description,
-        image: data.image || ""
+        image: data.image || "",
+        paymentLink: data.paymentLink || ""
       });
       toast.success("Curso atualizado com sucesso!");
       setLocation("/admin/courses");
@@ -193,6 +197,23 @@ const EditCourse = () => {
                   <FormControl>
                     <Input 
                       placeholder="https://exemplo.com/imagem.jpg" 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="paymentLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link para Pagamento</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="https://exemplo.com/pagamento" 
                       {...field} 
                     />
                   </FormControl>
