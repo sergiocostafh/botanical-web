@@ -106,3 +106,53 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Estilos para o editor React Quill */
+.rich-text-editor .ql-toolbar {
+  border: 1px solid #e2e8f0;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: #f8fafc;
+}
+
+.rich-text-editor .ql-container {
+  border: 1px solid #e2e8f0;
+  border-radius: 0 0 6px 6px;
+  font-family: inherit;
+  font-size: 14px;
+  min-height: 200px;
+}
+
+.rich-text-editor .ql-editor {
+  min-height: 200px;
+  padding: 16px;
+  line-height: 1.6;
+}
+
+.rich-text-editor .ql-editor.ql-blank::before {
+  color: #94a3b8;
+  font-style: normal;
+}
+
+.rich-text-editor .ql-snow .ql-stroke {
+  stroke: #64748b;
+}
+
+.rich-text-editor .ql-snow .ql-fill {
+  fill: #64748b;
+}
+
+.rich-text-editor .ql-snow .ql-picker-label:hover,
+.rich-text-editor .ql-snow .ql-picker-item:hover {
+  color: #059669;
+}
+
+.rich-text-editor .ql-snow.ql-toolbar button:hover,
+.rich-text-editor .ql-snow .ql-toolbar button:hover {
+  color: #059669;
+}
+
+.rich-text-editor .ql-snow.ql-toolbar button.ql-active,
+.rich-text-editor .ql-snow .ql-toolbar button.ql-active {
+  color: #059669;
+}

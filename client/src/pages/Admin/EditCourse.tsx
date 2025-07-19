@@ -8,9 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { courseService } from "@/lib/supabase";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const formSchema = z.object({
   title: z.string().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -25,6 +26,23 @@ const EditCourse = () => {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const courseId = params?.courseId;
+
+  // Configuração do React Quill
+  const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['blockquote', 'code-block'],
+      ['link'],
+      ['clean']
+    ],
+  };
+
+  const quillFormats = [
+    'header', 'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet', 'blockquote', 'code-block', 'link'
+  ];
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -145,11 +163,21 @@ const EditCourse = () => {
                 <FormItem>
                   <FormLabel>Descrição</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="Descrição detalhada do curso" 
-                      className="min-h-[150px]" 
-                      {...field} 
-                    />
+                    <div className="bg-white">
+                      <ReactQuill
+                        theme="snow"
+                        value={field.value}
+                        onChange={field.onChange}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Descrição detalhada do curso..."
+                        style={{ 
+                          minHeight: '200px',
+                          backgroundColor: 'white'
+                        }}
+                        className="rich-text-editor"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,7 +205,7 @@ const EditCourse = () => {
               <Button
                 type="button" 
                 variant="outline" 
-                onClick={() => navigate("/admin/courses")}
+                onClick={() => setLocation("/admin/courses")}
               >
                 Cancelar
               </Button>
