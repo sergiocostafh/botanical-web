@@ -1,17 +1,33 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import { users, courses, products, publications, type User, type InsertUser, type Course, type InsertCourse, type Product, type InsertProduct, type Publication, type InsertPublication } from "@shared/schema";
+import { 
+  users, 
+  adminUsers,
+  courses, 
+  products, 
+  publications, 
+  type User, 
+  type UpsertUser, 
+  type InsertAdminUser,
+  type AdminUser,
+  type Course, 
+  type InsertCourse, 
+  type Product, 
+  type InsertProduct, 
+  type Publication, 
+  type InsertPublication 
+} from "@shared/schema";
+import { db } from './db';
 import { eq } from 'drizzle-orm';
 
-const connectionString = process.env.DATABASE_URL!;
-const sql = postgres(connectionString);
-const db = drizzle(sql);
-
 export interface IStorage {
-  // User methods
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  // User methods for Replit Auth
+  getUser(id: string): Promise<User | undefined>;
+  upsertUser(user: UpsertUser): Promise<User>;
+  
+  // Admin methods
+  isUserAdmin(userId: string): Promise<boolean>;
+  addAdminUser(adminUser: InsertAdminUser): Promise<AdminUser>;
+  removeAdminUser(userId: string): Promise<boolean>;
+  getAdminUsers(): Promise<AdminUser[]>;
   
   // Course methods
   getCourses(): Promise<Course[]>;
@@ -36,20 +52,48 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  // User methods
-  async getUser(id: number): Promise<User | undefined> {
+  // User methods for Replit Auth
+  async getUser(id: string): Promise<User | undefined> {
     const result = await db.select().from(users).where(eq(users.id, id));
     return result[0];
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const result = await db.select().from(users).where(eq(users.username, username));
+  async upsertUser(userData: UpsertUser): Promise<User> {
+    const result = await db
+      .insert(users)
+      .values({
+        ...userData,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: users.id,
+        set: {
+          ...userData,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
     return result[0];
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const result = await db.insert(users).values(insertUser).returning();
+  // Admin methods
+  async isUserAdmin(userId: string): Promise<boolean> {
+    const result = await db.select().from(adminUsers).where(eq(adminUsers.userId, userId));
+    return result.length > 0;
+  }
+
+  async addAdminUser(adminUser: InsertAdminUser): Promise<AdminUser> {
+    const result = await db.insert(adminUsers).values(adminUser).returning();
     return result[0];
+  }
+
+  async removeAdminUser(userId: string): Promise<boolean> {
+    const result = await db.delete(adminUsers).where(eq(adminUsers.userId, userId)).returning();
+    return result.length > 0;
+  }
+
+  async getAdminUsers(): Promise<AdminUser[]> {
+    return await db.select().from(adminUsers);
   }
   
   // Course methods
