@@ -2,15 +2,15 @@
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 
 const CartIcon = () => {
   const { totalItems } = useCart();
   const [isAnimating, setIsAnimating] = useState(false);
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   
   const handleClick = () => {
-    navigate("/checkout");
+    setLocation("/checkout");
   };
   
   // Animar quando o totalItems mudar

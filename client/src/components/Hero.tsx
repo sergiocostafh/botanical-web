@@ -1,5 +1,4 @@
 import { ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
 const Hero = () => {
   const scrollToSection = () => {
     const aboutSection = document.getElementById('about');
@@ -23,8 +22,8 @@ const Hero = () => {
           </h1>
           <p className="text-xl mb-8 max-w-xl mx-auto md:text-2xl px-0">Pesquisa e Desenvolvimento em Bioativos do Brasil</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="#about" className="botanical-button-primary">Conheça meu Trabalho</Link>
-            <Link to="#shop" className="botanical-button-secondary">Visite a Loja</Link>
+            <a href="#about" className="botanical-button-primary">Conheça meu Trabalho</a>
+            <a href="#shop" className="botanical-button-secondary">Visite a Loja</a>
           </div>
         </div>
       </div>

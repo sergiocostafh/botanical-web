@@ -1,8 +1,7 @@
 
-import { createClient } from '@supabase/supabase-js';
 import { Product, Course, Publication } from '../types';
 import { toast } from 'sonner';
-import { supabase } from '../integrations/supabase/client';
+import { apiRequest } from './queryClient';
 
 // Keep the mock data for when rendering in development without Supabase connection
 const mockProducts: Product[] = [
@@ -72,17 +71,7 @@ const handleError = (error: any, operation: string) => {
 export const productService = {
   getProducts: async () => {
     try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error("Error fetching products:", error);
-        return mockProducts;
-      }
-      
-      return data as Product[];
+      return await apiRequest('/api/products');
     } catch (error) {
       console.error("Error fetching products:", error);
       toast.error("Erro ao carregar produtos. Usando dados de exemplo.");
@@ -92,18 +81,7 @@ export const productService = {
 
   getProduct: async (id: string) => {
     try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
-      if (error) {
-        console.error(`Error fetching product ${id}:`, error);
-        return mockProducts[0];
-      }
-      
-      return data as Product;
+      return await apiRequest(`/api/products/${id}`);
     } catch (error) {
       console.error(`Error fetching product ${id}:`, error);
       toast.error("Erro ao carregar o produto.");
@@ -111,21 +89,16 @@ export const productService = {
     }
   },
 
-  createProduct: async (product: Omit<Product, 'id' | 'created_at'>) => {
+  createProduct: async (product: Omit<Product, 'id' | 'createdAt'>) => {
     try {
       console.log("Creating product:", product);
-      const { data, error } = await supabase
-        .from('products')
-        .insert([product])
-        .select();
-    
-      if (error) {
-        console.error("Error creating product:", error);
-        throw error;
-      }
+      const result = await apiRequest('/api/products', {
+        method: 'POST',
+        body: JSON.stringify(product),
+      });
       
-      console.log("Product created successfully:", data[0]);
-      return data[0] as Product;
+      console.log("Product created successfully:", result);
+      return result as Product;
     } catch (error) {
       console.error("Error creating product:", error);
       toast.error("Erro ao criar produto");
@@ -136,19 +109,13 @@ export const productService = {
   updateProduct: async (id: string, product: Partial<Product>) => {
     try {
       console.log(`Updating product ${id}:`, product);
-      const { data, error } = await supabase
-        .from('products')
-        .update(product)
-        .eq('id', id)
-        .select();
-    
-      if (error) {
-        console.error("Error updating product:", error);
-        throw error;
-      }
+      const result = await apiRequest(`/api/products/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(product),
+      });
       
-      console.log("Product updated successfully:", data[0]);
-      return data[0] as Product;
+      console.log("Product updated successfully:", result);
+      return result as Product;
     } catch (error) {
       console.error("Error updating product:", error);
       toast.error("Erro ao atualizar produto");
@@ -158,12 +125,9 @@ export const productService = {
 
   deleteProduct: async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', id);
-    
-      if (error) throw error;
+      await apiRequest(`/api/products/${id}`, {
+        method: 'DELETE',
+      });
       return true;
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -178,15 +142,7 @@ export const courseService = {
   getCourses: async () => {
     try {
       console.log("Fetching courses from database...");
-      const { data, error } = await supabase
-        .from('courses')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error("Error fetching courses:", error);
-        return mockCourses;
-      }
+      const data = await apiRequest('/api/courses');
       
       console.log("Courses fetched from database:", data);
       return data as Course[];
@@ -200,16 +156,7 @@ export const courseService = {
   getCourse: async (id: string) => {
     try {
       console.log(`Fetching course ${id}...`);
-      const { data, error } = await supabase
-        .from('courses')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
-      if (error) {
-        console.error(`Error fetching course ${id}:`, error);
-        throw error;
-      }
+      const data = await apiRequest(`/api/courses/${id}`);
       
       console.log("Course fetched:", data);
       return data as Course;
@@ -220,21 +167,16 @@ export const courseService = {
     }
   },
 
-  createCourse: async (course: Omit<Course, 'id' | 'created_at'>) => {
+  createCourse: async (course: Omit<Course, 'id' | 'createdAt'>) => {
     try {
       console.log("Creating course:", course);
-      const { data, error } = await supabase
-        .from('courses')
-        .insert([course])
-        .select();
+      const data = await apiRequest('/api/courses', {
+        method: 'POST',
+        body: JSON.stringify(course),
+      });
       
-      if (error) {
-        console.error("Error creating course:", error);
-        throw error;
-      }
-      
-      console.log("Course created successfully:", data[0]);
-      return data[0] as Course;
+      console.log("Course created successfully:", data);
+      return data as Course;
     } catch (error) {
       console.error("Error creating course:", error);
       toast.error("Erro ao criar curso");
@@ -245,19 +187,13 @@ export const courseService = {
   updateCourse: async (id: string, course: Partial<Course>) => {
     try {
       console.log(`Updating course ${id} with:`, course);
-      const { data, error } = await supabase
-        .from('courses')
-        .update(course)
-        .eq('id', id)
-        .select();
+      const data = await apiRequest(`/api/courses/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(course),
+      });
       
-      if (error) {
-        console.error("Supabase update error:", error);
-        throw error;
-      }
-      
-      console.log("Course updated successfully:", data[0]);
-      return data[0] as Course;
+      console.log("Course updated successfully:", data);
+      return data as Course;
     } catch (error) {
       console.error(`Error updating course ${id}:`, error);
       toast.error("Erro ao atualizar curso");
@@ -265,41 +201,11 @@ export const courseService = {
     }
   },
 
-  updateCourseByTitle: async (title: string, course: Partial<Course>) => {
-    try {
-      console.log(`Updating course "${title}" with:`, course);
-      const { data, error } = await supabase
-        .from('courses')
-        .update(course)
-        .eq('title', title)
-        .select();
-      
-      if (error) {
-        console.error("Supabase update error:", error);
-        throw error;
-      }
-      
-      if (!data || data.length === 0) {
-        throw new Error(`Course with title "${title}" not found`);
-      }
-      
-      console.log("Course updated successfully:", data[0]);
-      return data[0] as Course;
-    } catch (error) {
-      console.error(`Error updating course "${title}":`, error);
-      toast.error(`Erro ao atualizar curso "${title}"`);
-      throw error;
-    }
-  },
-
   deleteCourse: async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('courses')
-        .delete()
-        .eq('id', id);
-      
-      if (error) throw error;
+      await apiRequest(`/api/courses/${id}`, {
+        method: 'DELETE',
+      });
       return true;
     } catch (error) {
       console.error(`Error deleting course ${id}:`, error);
@@ -313,16 +219,7 @@ export const courseService = {
 export const publicationService = {
   getPublications: async () => {
     try {
-      const { data, error } = await supabase
-        .from('publications')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error("Error fetching publications:", error);
-        return mockPublications;
-      }
-      
+      const data = await apiRequest('/api/publications');
       return data as Publication[];
     } catch (error) {
       console.error("Error fetching publications:", error);
@@ -333,16 +230,7 @@ export const publicationService = {
 
   getPublication: async (id: number) => {
     try {
-      const { data, error } = await supabase
-        .from('publications')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
-      if (error) {
-        console.error(`Error fetching publication ${id}:`, error);
-        throw error;
-      }
+      const data = await apiRequest(`/api/publications/${id}`);
       return data as Publication;
     } catch (error) {
       console.error(`Error fetching publication ${id}:`, error);
@@ -351,15 +239,13 @@ export const publicationService = {
     }
   },
 
-  createPublication: async (publication: Omit<Publication, 'id' | 'created_at'>) => {
+  createPublication: async (publication: Omit<Publication, 'id' | 'createdAt'>) => {
     try {
-      const { data, error } = await supabase
-        .from('publications')
-        .insert([publication])
-        .select();
-    
-      if (error) throw error;
-      return data[0] as Publication;
+      const data = await apiRequest('/api/publications', {
+        method: 'POST',
+        body: JSON.stringify(publication),
+      });
+      return data as Publication;
     } catch (error) {
       console.error("Error creating publication:", error);
       toast.error("Erro ao criar publicação");
@@ -369,14 +255,11 @@ export const publicationService = {
 
   updatePublication: async (id: number, publication: Partial<Publication>) => {
     try {
-      const { data, error } = await supabase
-        .from('publications')
-        .update(publication)
-        .eq('id', id)
-        .select();
-    
-      if (error) throw error;
-      return data[0] as Publication;
+      const data = await apiRequest(`/api/publications/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(publication),
+      });
+      return data as Publication;
     } catch (error) {
       console.error("Error updating publication:", error);
       toast.error("Erro ao atualizar publicação");
@@ -386,12 +269,9 @@ export const publicationService = {
 
   deletePublication: async (id: number) => {
     try {
-      const { error } = await supabase
-        .from('publications')
-        .delete()
-        .eq('id', id);
-    
-      if (error) throw error;
+      await apiRequest(`/api/publications/${id}`, {
+        method: 'DELETE',
+      });
       return true;
     } catch (error) {
       console.error("Error deleting publication:", error);

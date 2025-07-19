@@ -2,9 +2,10 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Router, Route, Switch } from "wouter";
 import { CartProvider } from "./context/CartContext";
+import { queryClient } from "./lib/queryClient";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProductDetails from "./pages/ProductDetails";
@@ -20,85 +21,62 @@ import EditProduct from "./pages/Admin/EditProduct";
 import EditPublication from "./pages/Admin/EditPublication";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const queryClient = new QueryClient();
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <CartProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
+        <Router>
+          <Switch>
             {/* Site Principal */}
-            <Route path="/" element={<Index />} />
-            <Route path="/produto/:productId" element={<ProductDetails />} />
-            <Route path="/curso/:courseId" element={<CourseDetails />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/" component={Index} />
+            <Route path="/produto/:productId" component={ProductDetails} />
+            <Route path="/curso/:courseId" component={CourseDetails} />
+            <Route path="/checkout" component={Checkout} />
             
             {/* Rotas Administrativas */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/courses"
-              element={
-                <ProtectedRoute>
-                  <AdminCourses />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/courses/edit/:courseId"
-              element={
-                <ProtectedRoute>
-                  <EditCourse />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/products"
-              element={
-                <ProtectedRoute>
-                  <AdminProducts />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/products/edit/:productId"
-              element={
-                <ProtectedRoute>
-                  <EditProduct />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/publications"
-              element={
-                <ProtectedRoute>
-                  <AdminPublications />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/publications/edit/:publicationId"
-              element={
-                <ProtectedRoute>
-                  <EditPublication />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/admin/login" component={AdminLogin} />
+            <Route path="/admin/dashboard">
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/courses">
+              <ProtectedRoute>
+                <AdminCourses />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/courses/edit/:courseId">
+              <ProtectedRoute>
+                <EditCourse />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/products">
+              <ProtectedRoute>
+                <AdminProducts />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/products/edit/:productId">
+              <ProtectedRoute>
+                <EditProduct />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/publications">
+              <ProtectedRoute>
+                <AdminPublications />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/admin/publications/edit/:publicationId">
+              <ProtectedRoute>
+                <EditPublication />
+              </ProtectedRoute>
+            </Route>
             
             {/* Rota Catch-all */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useRoute, Link } from "wouter";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
@@ -9,7 +9,8 @@ import { Course } from "@/types";
 import { toast } from "sonner";
 
 const CourseDetails = () => {
-  const { courseId } = useParams();
+  const [match, params] = useRoute("/curso/:courseId");
+  const courseId = params?.courseId;
   const [course, setCourse] = useState<Course | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,13 +1,13 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { toast } from "sonner";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ const AdminLogin = () => {
         // Armazenar token de autenticação
         localStorage.setItem("adminAuth", "true");
         toast.success("Login realizado com sucesso!");
-        navigate("/admin/dashboard");
+        setLocation("/admin/dashboard");
       } else {
         toast.error("Credenciais inválidas!");
       }

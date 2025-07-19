@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "wouter";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
@@ -30,7 +30,7 @@ const formSchema = z.object({
 const Checkout = () => {
   const { items, removeFromCart, updateQuantity, clearCart, subtotal } = useCart();
   const [step, setStep] = useState<'cart' | 'address' | 'payment' | 'confirmation'>('cart');
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

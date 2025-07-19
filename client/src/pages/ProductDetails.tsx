@@ -1,5 +1,5 @@
 
-import { useParams, Link } from "react-router-dom";
+import { useRoute, Link } from "wouter";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ArrowLeft, ShoppingBag, Check } from "lucide-react";
@@ -152,7 +152,8 @@ const productsData = [
 ];
 
 const ProductDetails = () => {
-  const { productId } = useParams();
+  const [match, params] = useRoute("/produto/:productId");
+  const productId = params?.productId;
   const product = productsData.find(p => p.id === productId);
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);

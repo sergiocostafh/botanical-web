@@ -1,18 +1,17 @@
 
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "wouter";
 import { useScrollPosition } from "@/hooks/use-scroll-position";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
 import CartIcon from "./CartIcon";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHome = location.pathname === "/";
+  const [location] = useLocation();
+  const isHome = location === "/";
   const scrollPosition = useScrollPosition();
   const [isScrolled, setIsScrolled] = useState(false);
-  const isAdmin = location.pathname.includes("/admin");
+  const isAdmin = location.includes("/admin");
 
   useEffect(() => {
     setIsScrolled(scrollPosition > 50);
