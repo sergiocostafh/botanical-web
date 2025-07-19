@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useRoute, useLocation } from "wouter";
 import AdminLayout from "@/components/AdminLayout";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -21,9 +21,10 @@ const formSchema = z.object({
 });
 
 const EditCourse = () => {
-  const { courseId } = useParams();
-  const navigate = useNavigate();
+  const [match, params] = useRoute("/admin/courses/edit/:courseId");
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const courseId = params?.courseId;
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,14 +55,14 @@ const EditCourse = () => {
       } catch (error) {
         console.error("Error fetching course:", error);
         toast.error("Erro ao carregar informações do curso");
-        navigate("/admin/courses");
+        setLocation("/admin/courses");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchCourse();
-  }, [courseId, form, navigate]);
+  }, [courseId, form, setLocation]);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     if (!courseId) return;
@@ -77,7 +78,7 @@ const EditCourse = () => {
         image: data.image || ""
       });
       toast.success("Curso atualizado com sucesso!");
-      navigate("/admin/courses");
+      setLocation("/admin/courses");
     } catch (error) {
       console.error("Error updating course:", error);
       toast.error("Erro ao atualizar curso");

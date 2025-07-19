@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useRoute, useLocation } from "wouter";
 import AdminLayout from "@/components/AdminLayout";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -21,9 +21,10 @@ const formSchema = z.object({
 });
 
 const EditPublication = () => {
-  const { publicationId } = useParams();
-  const navigate = useNavigate();
+  const [match, params] = useRoute("/admin/publications/edit/:publicationId");
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const publicationId = params?.publicationId;
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,14 +54,14 @@ const EditPublication = () => {
       } catch (error) {
         console.error("Error fetching publication:", error);
         toast.error("Erro ao carregar informações da publicação");
-        navigate("/admin/publications");
+        setLocation("/admin/publications");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchPublication();
-  }, [publicationId, form, navigate]);
+  }, [publicationId, form, setLocation]);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     if (!publicationId) return;
@@ -75,7 +76,7 @@ const EditPublication = () => {
         link: data.link || undefined
       });
       toast.success("Publicação atualizada com sucesso!");
-      navigate("/admin/publications");
+      setLocation("/admin/publications");
     } catch (error) {
       console.error("Error updating publication:", error);
       toast.error("Erro ao atualizar publicação");

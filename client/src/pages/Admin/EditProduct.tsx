@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useRoute, useLocation } from "wouter";
 import AdminLayout from "@/components/AdminLayout";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -23,9 +23,10 @@ const formSchema = z.object({
 });
 
 const EditProduct = () => {
-  const { productId } = useParams();
-  const navigate = useNavigate();
+  const [match, params] = useRoute("/admin/products/edit/:productId");
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const productId = params?.productId;
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,14 +56,14 @@ const EditProduct = () => {
       } catch (error) {
         console.error("Error fetching product:", error);
         toast.error("Erro ao carregar informações do produto");
-        navigate("/admin/products");
+        setLocation("/admin/products");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchProduct();
-  }, [productId, form, navigate]);
+  }, [productId, form, setLocation]);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     if (!productId) return;
@@ -78,7 +79,7 @@ const EditProduct = () => {
         image: data.image || ""
       });
       toast.success("Produto atualizado com sucesso!");
-      navigate("/admin/products");
+      setLocation("/admin/products");
     } catch (error) {
       console.error("Error updating product:", error);
       toast.error("Erro ao atualizar produto");

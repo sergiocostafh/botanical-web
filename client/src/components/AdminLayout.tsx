@@ -1,5 +1,5 @@
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "wouter";
 import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,12 +10,12 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
     toast.success("Logout realizado com sucesso");
-    navigate("/admin/login");
+    setLocation("/admin/login");
   };
 
   return (
