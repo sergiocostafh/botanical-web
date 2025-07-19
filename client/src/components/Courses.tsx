@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 import { courseService } from "@/lib/supabase";
 import { Course } from "@/types";
 import { toast } from "sonner";

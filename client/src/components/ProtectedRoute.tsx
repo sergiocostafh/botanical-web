@@ -1,5 +1,6 @@
 
-import { Navigate } from "react-router-dom";
+import { useLocation } from "wouter";
+import { useEffect } from "react";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -7,9 +8,16 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const isAuthenticated = localStorage.getItem("adminAuth") === "true";
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setLocation("/admin/login");
+    }
+  }, [isAuthenticated, setLocation]);
 
   if (!isAuthenticated) {
-    return <Navigate to="/admin/login" replace />;
+    return null;
   }
 
   return <>{children}</>;
