@@ -56,7 +56,7 @@ const Courses = () => {
                 console.log("Rendering course:", course.title, "Image URL:", course.image);
                 return (
                   <div key={course.id} className="bg-botanical-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative aspect-[3/4] overflow-hidden">
                       <div className="absolute top-3 right-3 bg-botanical-copper text-botanical-white text-xs font-medium py-1 px-2 rounded z-10">
                         {course.type}
                       </div>
@@ -74,10 +74,9 @@ const Courses = () => {
                         </div>
                       )}
                     </div>
-                    <div className="p-6">
-                      <h3 className="font-playfair text-xl mb-2 text-botanical-dark">{course.title}</h3>
-                      <p className="text-sm text-botanical-olive font-medium mb-3">{course.subtitle}</p>
-                      <p className="text-botanical-dark/70 mb-6 line-clamp-3">{course.description}</p>
+                    <div className="p-4">
+                      <h3 className="font-playfair text-xl mb-1 text-botanical-dark">{course.title}</h3>
+                      <p className="text-sm text-botanical-olive font-medium mb-4">{course.subtitle}</p>
                       <div className="flex justify-between items-center">
                         <Link to={`/curso/${course.id}`} className="botanical-button-primary text-sm py-2">Saiba mais</Link>
                         <a href="#" className="text-botanical-olive hover:text-botanical-dark transition-colors">
