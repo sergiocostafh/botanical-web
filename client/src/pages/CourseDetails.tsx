@@ -74,14 +74,14 @@ const CourseDetails = () => {
           </Link>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="relative h-64 md:h-96 lg:h-full rounded-lg overflow-hidden">
-              <div className="absolute top-3 right-3 bg-botanical-copper text-botanical-white text-xs font-medium py-1 px-2 rounded">
+            <div className="relative aspect-[3/4] lg:aspect-auto lg:h-[600px] rounded-lg overflow-hidden bg-botanical-beige/10">
+              <div className="absolute top-3 right-3 bg-botanical-copper text-botanical-white text-xs font-medium py-1 px-2 rounded z-10">
                 {course.type}
               </div>
               <img 
                 src={course.image} 
                 alt={course.title} 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=Imagem+não+disponível";
                 }}
