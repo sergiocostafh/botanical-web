@@ -36,7 +36,10 @@ export function getSession() {
 }
 
 export async function setupGoogleAuth(app: Express) {
-  if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  const clientId = process.env.GOOGLE_CLIENT_ID || "13668400525-7ce3l7f041nplfr3e5v1jr851dink5vr.apps.googleusercontent.com";
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || "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";
+  
+  if (!clientId || !clientSecret) {
     console.warn("Google OAuth not configured. GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are required.");
     return;
   }
@@ -48,8 +51,8 @@ export async function setupGoogleAuth(app: Express) {
 
   // Configure Google Strategy
   passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: clientId,
+    clientSecret: clientSecret,
     callbackURL: "/api/auth/google/callback"
   }, async (accessToken, refreshToken, profile, done) => {
     try {
