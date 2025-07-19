@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
-import { LogOut, Menu, X, User } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { LogOut, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -10,29 +10,12 @@ interface AdminLayoutProps {
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [, setLocation] = useLocation();
-  const { user, isLoading, isAuthenticated, isAdmin } = useAuth();
-
-  useEffect(() => {
-    if (!isLoading && (!isAuthenticated || !isAdmin)) {
-      setLocation("/admin/portal");
-    }
-  }, [isLoading, isAuthenticated, isAdmin, setLocation]);
 
   const handleLogout = () => {
-    window.location.href = "/api/logout";
+    localStorage.removeItem("adminAuth");
+    toast.success("Logout realizado com sucesso");
+    setLocation("/admin/login");
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-botanical-beige/10 flex items-center justify-center">
-        <div className="animate-spin w-10 h-10 border-4 border-botanical-olive border-t-transparent rounded-full"></div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated || !isAdmin) {
-    return null;
-  }
 
   const SidebarContent = () => (
     <>
@@ -67,39 +50,14 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           </Link>
         </nav>
       </div>
-      <div className="flex-shrink-0 border-t border-botanical-copper">
-        <div className="p-3">
-          <div className="flex items-center space-x-3">
-            {user?.profileImageUrl ? (
-              <img
-                src={user.profileImageUrl}
-                alt="Perfil"
-                className="h-8 w-8 rounded-full object-cover"
-              />
-            ) : (
-              <div className="h-8 w-8 bg-botanical-olive rounded-full flex items-center justify-center">
-                <User className="h-4 w-4 text-white" />
-              </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-botanical-white truncate">
-                {user?.firstName || user?.email || 'Usuário'}
-              </p>
-              <p className="text-xs text-botanical-beige/70 truncate">
-                Administrador
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="px-3 pb-3">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center px-3 py-2 text-sm text-botanical-white hover:bg-botanical-olive rounded-md transition-colors"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Sair
-          </button>
-        </div>
+      <div className="flex-shrink-0 border-t border-botanical-copper p-4">
+        <button
+          onClick={handleLogout}
+          className="flex items-center text-botanical-white hover:text-botanical-beige"
+        >
+          <LogOut className="h-5 w-5 mr-2" />
+          Sair
+        </button>
       </div>
     </>
   );

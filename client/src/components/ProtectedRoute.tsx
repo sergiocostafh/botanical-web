@@ -1,20 +1,22 @@
-
-import { useLocation } from "wouter";
 import { useEffect } from "react";
+import { useLocation } from "wouter";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuthenticated = localStorage.getItem("adminAuth") === "true";
   const [, setLocation] = useLocation();
 
   useEffect(() => {
+    const isAuthenticated = localStorage.getItem("adminAuth") === "authenticated";
+    
     if (!isAuthenticated) {
       setLocation("/admin/login");
     }
-  }, [isAuthenticated, setLocation]);
+  }, [setLocation]);
+
+  const isAuthenticated = localStorage.getItem("adminAuth") === "authenticated";
 
   if (!isAuthenticated) {
     return null;
