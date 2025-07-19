@@ -104,9 +104,10 @@ const CourseDetails = () => {
               
               <div className="mt-10">
                 <h2 className="text-2xl font-playfair mb-4">Sobre este curso</h2>
-                <div className="prose prose-olive max-w-none space-y-4 text-botanical-dark/80">
-                  <p>{course.description}</p>
-                </div>
+                <div 
+                  className="prose prose-lg prose-olive max-w-none text-botanical-dark/80 prose-headings:text-botanical-dark prose-headings:font-playfair prose-strong:text-botanical-dark prose-ul:list-disc prose-ol:list-decimal prose-li:mb-2"
+                  dangerouslySetInnerHTML={{ __html: course.description }}
+                />
               </div>
             </div>
           </div>
