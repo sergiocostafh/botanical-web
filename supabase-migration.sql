@@ -136,8 +136,8 @@ INSERT INTO publications (id, title, journal, year, abstract, link, created_at) 
 INSERT INTO publications (id, title, journal, year, abstract, link, created_at) VALUES (3, 'Atividade Antimicrobiana de Extratos Vegetais', 'Phytotherapy Research', 2024, 'Avaliação da atividade antimicrobiana de extratos vegetais de plantas brasileiras contra patógenos comuns.', 'https://example.com/publication3', NULL);
 
 -- 6. Insert admin users
-INSERT INTO admin_users (id, email, password_hash, is_admin, created_at) VALUES (2, 'admin@exemplo.com', NULL, undefined, NULL);
-INSERT INTO admin_users (id, email, password_hash, is_admin, created_at) VALUES (3, 'sergio.vscf@gmail.com', NULL, undefined, NULL);
+INSERT INTO admin_users (id, email, password_hash, is_admin, created_at) VALUES ('2', 'admin@exemplo.com', NULL, true, NOW());
+INSERT INTO admin_users (id, email, password_hash, is_admin, created_at) VALUES ('3', 'sergio.vscf@gmail.com', NULL, true, NOW());
 
 -- 7. Verify migration
 SELECT COUNT(*) as courses_count FROM courses;
