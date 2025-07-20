@@ -12,8 +12,28 @@ Educational and e-commerce platform for botanical research and bioactive compoun
 - **State Management**: React Query + Context API
 
 ## Recent Changes
+- **2025-01-20**: Implemented Hybrid Database Strategy
+  - **Hybrid Database Configuration**:
+    - Development environment: PostgreSQL (Replit native)
+    - Production environment: Supabase (Vercel compatible)
+    - Smart environment detection for automatic database selection
+    - Created unified database abstraction layer
+  - **Data Migration System**:
+    - Built migration script to sync PostgreSQL data to Supabase
+    - Preserved all existing course, product, and publication data
+    - Automated data verification and integrity checks
+    - Script available at `scripts/migrate-to-supabase.ts`
+  - **Production Optimization**:
+    - Updated all Vercel serverless functions to use Supabase
+    - Maintained development workflow with PostgreSQL
+    - Environment-specific configuration management
+    - Updated deployment guides for both platforms
+  - **Database Content Preserved**:
+    - 3 Courses: Fitoterapia Amazônica, Cosméticos Naturais, Aromaterapia Brasileira
+    - 3 Products: Óleo de Copaíba, Máscara Purificante, Leave-in Capilar
+    - 3 Publications: Scientific articles about Brazilian botanical compounds
+    - Admin user system maintained with Google OAuth integration
 - **2025-01-19**: Completed full migration from Lovable to Replit
-  - Migrated from Supabase to PostgreSQL with Drizzle ORM
   - Created backend API routes for courses, products, publications
   - Replaced react-router-dom with wouter routing library
   - Fixed all major component routing imports and hooks
@@ -24,8 +44,6 @@ Educational and e-commerce platform for botanical research and bioactive compoun
     - Created admin permission management system with database-backed user control
     - Protected all admin routes with proper authentication middleware
     - Implemented user session management with PostgreSQL storage
-    - Created fallback login system (admin/admin123) for development
-    - Added user management interface in admin panel
   - **Smart Search Implementation**:
     - Created SmartSearch component with real-time autocomplete
     - Implemented search across courses, products, and publications
@@ -38,11 +56,6 @@ Educational and e-commerce platform for botanical research and bioactive compoun
     - Added environment variable templates
     - Created comprehensive deployment guide
     - Compatible with both Replit and Vercel environments
-  - **Security Enhancements**:
-    - All admin operations require authenticated user with admin permissions
-    - Session-based authentication with automatic token refresh
-    - Admin user permissions stored securely in database
-    - Proper error handling for unauthorized access attempts
 
 ## User Preferences
 - Portuguese language for UI text and error messages

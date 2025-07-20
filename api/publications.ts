@@ -1,11 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { storage } from '../server/storage';
+import { createProdDatabase } from '../server/supabase';
+import { publications } from '../shared/schema';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
+    const db = createProdDatabase();
+    
     if (req.method === 'GET') {
-      const publications = await storage.getPublications();
-      res.json(publications);
+      const publicationsData = await db.select().from(publications);
+      res.json(publicationsData);
     } else if (req.method === 'POST') {
       // Check admin auth
       const authHeader = req.headers.authorization;
@@ -13,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
-      const publication = await storage.createPublication(req.body);
+      const [publication] = await db.insert(publications).values(req.body).returning();
       res.status(201).json(publication);
     } else {
       res.status(405).json({ message: 'Method not allowed' });

@@ -9,21 +9,18 @@
    - `api/` (serverless functions)
    - `.env.example` (template de variáveis)
 
-### 2. Configuração do Banco de Dados
+### 2. Configuração do Supabase (Recomendado)
 
-Você precisa de um banco PostgreSQL. Recomendo:
+**Este projeto usa configuração híbrida:**
+- **Desenvolvimento**: PostgreSQL (Replit)
+- **Produção**: Supabase
 
-**Opção A: Neon (Recomendado)**
-1. Vá para [neon.tech](https://neon.tech)
-2. Crie uma conta gratuita
-3. Crie um novo projeto/banco
-4. Copie a URL de conexão
-
-**Opção B: Supabase**
+**Configure o Supabase:**
 1. Vá para [supabase.com](https://supabase.com)
-2. Crie um projeto
+2. Crie um projeto: `botanical-platform`
 3. Vá em Settings > Database
 4. Copie a connection string
+5. Execute a migração de dados (veja SUPABASE_SETUP.md)
 
 ### 3. Deploy no Vercel
 
@@ -42,7 +39,7 @@ Você precisa de um banco PostgreSQL. Recomendo:
 
 5. **Adicione as variáveis de ambiente**:
    ```
-   DATABASE_URL=sua_url_do_postgresql_aqui
+   SUPABASE_DATABASE_URL=sua_url_do_supabase_aqui
    NODE_ENV=production
    ```
 
