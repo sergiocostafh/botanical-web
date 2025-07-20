@@ -1,0 +1,107 @@
+{
+  "courses": [
+    {
+      "id": "40a7ec06-fc8a-41b9-a75c-a24a74a80642",
+      "title": "Fitoterapia Amazônica",
+      "subtitle": "Plantas Medicinais da Floresta",
+      "type": "Curso online",
+      "description": "<p>Conheça as <strong>propriedades medicinais das plantas amazônicas</strong> e sua aplicação na medicina natural tradicional e contemporânea.</p>\n\n<h3>Módulos do curso:</h3>\n<ol>\n<li><strong>Introdução à Fitoterapia Amazônica</strong>\n   <ul>\n   <li>História e tradição indígena</li>\n   <li>Biodiversidade farmacológica da Amazônia</li>\n   </ul>\n</li>\n<li><strong>Plantas Medicinais Principais</strong>\n   <ul>\n   <li>Jatobá, Sangra d'água, Unha de gato</li>\n   <li>Preparos e dosagens tradicionais</li>\n   </ul>\n</li>\n<li><strong>Aplicações Terapêuticas</strong>\n   <ul>\n   <li>Tratamento de inflamações</li>\n   <li>Fortalecimento do sistema imunológico</li>\n   <li>Cuidados com o sistema digestivo</li>\n   </ul>\n</li>\n</ol>\n\n<blockquote>\n<p><em>\"A floresta amazônica é a maior farmácia natural do mundo, com mais de 40.000 espécies vegetais catalogadas.\"</em></p>\n</blockquote>\n\n<p><strong>Inclui:</strong> Material didático digital, vídeos práticos e certificado de conclusão.</p>",
+      "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2071",
+      "paymentLink": null,
+      "createdAt": "2025-07-19T17:40:19.238Z"
+    },
+    {
+      "id": "3f9eb9ef-369e-4a3b-bf1b-e1408d369b55",
+      "title": "Cosméticos Naturais",
+      "subtitle": "Formulação com Ativos Brasileiros",
+      "type": "Workshop presencial",
+      "description": "<p>Aprenda a <strong>formular cosméticos naturais</strong> utilizando ingredientes ativos da rica biodiversidade brasileira.</p>\n\n<h3>Workshop prático inclui:</h3>\n<ul>\n<li><strong>Teoria da Formulação Natural</strong>\n   <ul>\n   <li>Princípios ativos vegetais brasileiros</li>\n   <li>Conservação natural e estabilidade</li>\n   <li>Regulamentação ANVISA</li>\n   </ul>\n</li>\n<li><strong>Práticas de Laboratório</strong>\n   <ul>\n   <li>Formulação de séruns faciais</li>\n   <li>Máscaras de argila e extratos</li>\n   <li>Produtos capilares com óleos nativos</li>\n   </ul>\n</li>\n</ul>\n\n<h3>Ingredientes que você vai trabalhar:</h3>\n<div style=\"display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;\">\n<div>\n• <strong>Açaí</strong> - Antioxidante<br>\n• <strong>Buriti</strong> - Proteção solar<br>\n• <strong>Cupuaçu</strong> - Hidratação\n</div>\n<div>\n• <strong>Argila rosa</strong> - Purificação<br>\n• <strong>Própolis verde</strong> - Anti-idade<br>\n• <strong>Andiroba</strong> - Reparação\n</div>\n</div>\n\n<p style=\"background-color: #f0f8f0; padding: 15px; border-left: 4px solid #4a7c59; margin: 20px 0;\">\n<strong>🌿 Workshop presencial de 8 horas</strong><br>\nInclui todos os materiais, kit de produtos formulados e apostila técnica.\n</p>",
+      "image": "https://images.unsplash.com/photo-1576426863848-c21f53c60b19?q=80&w=2070",
+      "paymentLink": null,
+      "createdAt": "2025-07-19T17:40:19.238Z"
+    },
+    {
+      "id": "fefebfc1-d58c-40c7-83db-a5f2a62e20b5",
+      "title": "Aromaterapia Brasileira",
+      "subtitle": "15 Óleos Essenciais da Flora Nativa",
+      "type": "Curso gravado",
+      "description": "<p>Aprenda a praticar uma aromaterapia legitimamente brasileira, através da associação entre o conhecimento científico recente e a tradição secular de uso de plantas medicinais e aromáticas da nossa flora nativa. No curso serão abordadas particularidades botânicas, ecológicas e químicas de 15 plantas e seus óleos essenciais, além de segurança de uso e indicações terapêuticas dos OEs brasileiros para o bem-estar físico e emocional.</p><p><br></p><p><strong>Carga horária:&nbsp;</strong></p><p>16 horas</p><p><br></p><p><strong>Conteúdo:</strong></p><ul><li>Porque estudar, usar e indicar óleos essenciais da flora brasileira.</li><li>Reflexões acerca da sociobiodiversidade brasileira e sustentabilidade.</li><li>Panorama da produção vegetal e pesquisa cientíca.</li><li>Caracterização botânica, ecológica e química dos óleos essenciais (e resinas) de alecrim-do-campo, alecrim-pimenta, araçá, aroeira (pimenta-rosa), breu, candeia, copaíba, erva-baleeira, lippia alba (verbena-branca), pau-rosa, pindaíba, pitangueira, priprioca, sangue-de-dragão e vassourinha-doce.</li><li>Particularidades, estado do conhecimento científico, segurança e indicações de uso para fins físicos e emocionais, para cada um dos óleos essenciais estudados.</li><li>Bônus: Aula Gravada Óleos graxos e Manteigas Vegetais do Brasil.</li></ul><p>&nbsp;</p><p>Aula 1 |&nbsp;Porque estudar, usar e indicar óleos essenciais da flora brasileira. Reflexões acerca da sociobiodiversidade brasileira e sustentabilidade. Conceitos iniciais.</p><p>Aula 2 |&nbsp;Ervas e arbustos aromáticos do Brasil: lipia, alecrim-pimenta, vassourinha-doce, erva-baleeira e alecrim-do-campo</p><p>Aula 3 |&nbsp;Árvores aromáticas do Brasil: candeia, pitangueira, araçá, aroeira e pindaíba</p><p>Aula 4 |&nbsp;Aromáticas Amazônicas: priprioca, breu, pau-rosa, sangue-de-dragão e copaíba</p>",
+      "image": "https://raw.githubusercontent.com/sergiocostafh/botanical-web/main/client/public/curso1_thumb.png",
+      "paymentLink": "https://pag.ae/7_S9pNnYK",
+      "createdAt": "2025-07-19T17:40:19.238Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "463e7195-cd2d-4412-b902-4d075424dd47",
+      "name": "Leave-in Fortalecedor Capilar",
+      "price": "85.00",
+      "category": "terroa",
+      "description": "Enriquecido com ativos da flora brasileira que fortalecem e protegem os fios.",
+      "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=1000",
+      "createdAt": "2025-07-19T17:40:27.810Z"
+    },
+    {
+      "id": "d032dc8c-2928-4469-a443-f636f5bcddbb",
+      "name": "Máscara Facial Purificante",
+      "price": "79.00",
+      "category": "terroa",
+      "description": "Combina argila brasileira e extratos vegetais que purificam e equilibram a oleosidade.",
+      "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=1000",
+      "createdAt": "2025-07-19T17:40:27.810Z"
+    },
+    {
+      "id": "af54e196-a5ca-482c-8227-fdb1c6a416e2",
+      "name": "Óleo Essencial de Copaíba",
+      "price": "65.00",
+      "category": "oleos",
+      "description": "Óleo essencial 100% puro extraído da árvore de Copaíba brasileira.",
+      "image": "https://images.unsplash.com/photo-1608572616160-090b8c70fd77?q=80&w=1000",
+      "createdAt": "2025-07-19T17:40:27.810Z"
+    }
+  ],
+  "publications": [
+    {
+      "id": 1,
+      "title": "Bioatividade de Óleos Essenciais da Flora Brasileira",
+      "journal": "Revista Brasileira de Farmacognosia",
+      "year": "2024",
+      "abstract": "Estudo sobre as propriedades bioativas de óleos essenciais extraídos de plantas nativas do Brasil e suas aplicações terapêuticas.",
+      "link": "https://example.com/publication1",
+      "createdAt": "2025-07-19T17:40:31.260Z"
+    },
+    {
+      "id": 2,
+      "title": "Compostos Fenólicos em Plantas Amazônicas",
+      "journal": "Journal of Natural Products",
+      "year": "2023",
+      "abstract": "Análise fitoquímica de compostos fenólicos presentes em espécies vegetais da região amazônica.",
+      "link": "https://example.com/publication2",
+      "createdAt": "2025-07-19T17:40:31.260Z"
+    },
+    {
+      "id": 3,
+      "title": "Atividade Antimicrobiana de Extratos Vegetais",
+      "journal": "Phytotherapy Research",
+      "year": "2024",
+      "abstract": "Avaliação da atividade antimicrobiana de extratos vegetais de plantas brasileiras contra patógenos comuns.",
+      "link": "https://example.com/publication3",
+      "createdAt": "2025-07-19T17:40:31.260Z"
+    }
+  ],
+  "adminUsers": [
+    {
+      "id": 2,
+      "userId": "demo_admin_user_001",
+      "email": "admin@exemplo.com",
+      "createdAt": "2025-07-19T19:48:59.944Z"
+    },
+    {
+      "id": 3,
+      "userId": "105385596459371653492",
+      "email": "sergio.vscf@gmail.com",
+      "createdAt": "2025-07-19T20:23:56.330Z"
+    }
+  ],
+  "exportedAt": "2025-07-20T01:21:59.155Z"
+}
