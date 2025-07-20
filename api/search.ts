@@ -17,7 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Get all data from Supabase REST API
     const SUPABASE_URL = "https://gswdmdygbytmqkacwngm.supabase.co";
-    const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd2RtZHlnYnl0bXFrYWN3bmdtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NjQ0ODU4MSwiZXhwIjoyMDYyMDI0NTgxfQ.wW8nKyU4S4J1pKJjJHqw_QhGVJSJCJpKLQOsE6HLrQY";
+    const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     const headers = {
       "apikey": SUPABASE_SERVICE_KEY,
