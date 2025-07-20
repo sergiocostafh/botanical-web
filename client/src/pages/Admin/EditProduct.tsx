@@ -73,7 +73,7 @@ const EditProduct = () => {
       console.log("Updating product with data:", data);
       await productService.updateProduct(productId, {
         name: data.name,
-        price: parseFloat(data.price),
+        price: data.price,
         category: data.category,
         description: data.description,
         image: data.image || ""
@@ -178,7 +178,7 @@ const EditProduct = () => {
               <Button
                 type="button" 
                 variant="outline" 
-                onClick={() => navigate("/admin/products")}
+                onClick={() => setLocation("/admin/products")}
               >
                 Cancelar
               </Button>

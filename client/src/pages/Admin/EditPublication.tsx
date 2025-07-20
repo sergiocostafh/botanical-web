@@ -172,7 +172,7 @@ const EditPublication = () => {
               <Button
                 type="button" 
                 variant="outline" 
-                onClick={() => navigate("/admin/publications")}
+                onClick={() => setLocation("/admin/publications")}
               >
                 Cancelar
               </Button>

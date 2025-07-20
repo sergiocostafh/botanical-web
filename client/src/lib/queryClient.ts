@@ -26,7 +26,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: async ({ queryKey }) => {
-        const url = Array.isArray(queryKey) ? queryKey[0] as string : queryKey as string;
+        const url = Array.isArray(queryKey) ? (queryKey[0] as string) : (queryKey as unknown as string);
         return apiRequest(url);
       },
       staleTime: 5 * 60 * 1000, // 5 minutes

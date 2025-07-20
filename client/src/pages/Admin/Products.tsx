@@ -77,7 +77,7 @@ const AdminProducts = () => {
                 <TableRow key={product.id}>
                   <TableCell className="font-medium">{product.id}</TableCell>
                   <TableCell>{product.name}</TableCell>
-                  <TableCell>R$ {product.price.toFixed(2)}</TableCell>
+                  <TableCell>R$ {parseFloat(product.price).toFixed(2)}</TableCell>
                   <TableCell>{product.category}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">

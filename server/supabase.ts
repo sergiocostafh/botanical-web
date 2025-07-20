@@ -11,7 +11,8 @@ export function createDatabase(connectionString: string) {
 // Development database (current PostgreSQL)
 export function createDevDatabase() {
   if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL must be set for development database");
+    console.log("DATABASE_URL not set, using Supabase for development as well");
+    return createProdDatabase();
   }
   return createDatabase(process.env.DATABASE_URL);
 }
@@ -35,7 +36,7 @@ export function createProdDatabase() {
   try {
     return createDatabase(connectionString);
   } catch (error) {
-    console.error('Supabase connection failed:', error.message);
+    console.error('Supabase connection failed:', (error as Error).message);
     throw error;
   }
 }

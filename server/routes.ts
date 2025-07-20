@@ -82,7 +82,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       results.push(...products.map(product => ({
         id: product.id,
         title: product.name,
-        subtitle: `R$ ${product.price.toFixed(2)}`,
+        subtitle: `R$ ${parseFloat(product.price).toFixed(2)}`,
         description: product.description,
         type: 'product' as const
       })));
@@ -92,7 +92,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       results.push(...publications.map(pub => ({
         id: pub.id.toString(),
         title: pub.title,
-        subtitle: pub.authors,
+        subtitle: pub.journal,
         description: pub.abstract,
         type: 'publication' as const
       })));

@@ -138,7 +138,6 @@ export class DatabaseStorage implements IStorage {
       .where(
         or(
           ilike(publications.title, searchTerm),
-          ilike(publications.authors, searchTerm),
           ilike(publications.abstract, searchTerm),
           ilike(publications.journal, searchTerm)
         )

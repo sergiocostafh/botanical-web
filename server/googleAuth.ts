@@ -155,7 +155,7 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
 };
 
 export const isAdmin: RequestHandler = (req, res, next) => {
-  if (!req.isAuthenticated() || !req.user?.isAdmin) {
+  if (!req.isAuthenticated() || !req.user) {
     return res.status(403).json({ message: "Admin access required" });
   }
   next();

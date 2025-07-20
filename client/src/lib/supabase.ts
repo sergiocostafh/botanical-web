@@ -8,10 +8,11 @@ const mockProducts: Product[] = [
   {
     id: 'mock-1',
     name: 'Produto Exemplo',
-    price: 29.99,
+    price: "29.99",
     category: 'terroa',
     description: 'Este é um produto de exemplo. Conecte-se ao Supabase para ver produtos reais.',
-    image: 'https://placehold.co/600x400?text=Produto+Exemplo'
+    image: 'https://placehold.co/600x400?text=Produto+Exemplo',
+    createdAt: new Date()
   }
 ];
 
@@ -22,7 +23,9 @@ const mockCourses: Course[] = [
     subtitle: 'Um curso de exemplo para desenvolvimento',
     type: 'Online',
     description: 'Este é um curso de exemplo. Conecte-se ao Supabase para ver cursos reais.',
-    image: 'https://placehold.co/600x400?text=Curso+Exemplo'
+    image: 'https://placehold.co/600x400?text=Curso+Exemplo',
+    createdAt: new Date(),
+    paymentLink: null
   }
 ];
 
@@ -32,7 +35,9 @@ const mockPublications: Publication[] = [
     title: 'Publicação Exemplo',
     journal: 'Revista Científica',
     year: '2023',
-    abstract: 'Este é um resumo de exemplo. Conecte-se ao Supabase para ver publicações reais.'
+    abstract: 'Este é um resumo de exemplo. Conecte-se ao Supabase para ver publicações reais.',
+    link: null,
+    createdAt: new Date()
   }
 ];
 

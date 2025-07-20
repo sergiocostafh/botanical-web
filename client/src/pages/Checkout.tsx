@@ -84,7 +84,7 @@ const Checkout = () => {
   };
 
   const goToHome = () => {
-    navigate('/');
+    setLocation('/');
   };
 
   if (items.length === 0 && step === 'cart') {
