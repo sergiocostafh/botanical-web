@@ -1,11 +1,7 @@
 {
-  "version": 2,
-  "buildCommand": "vite build",
-  "outputDirectory": "dist",
-  "framework": "vite",
   "functions": {
     "api/**/*.ts": {
-      "runtime": "@vercel/node"
+      "runtime": "nodejs18.x"
     }
   },
   "rewrites": [
@@ -17,8 +13,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
