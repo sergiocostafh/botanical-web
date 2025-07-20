@@ -1,77 +1,83 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createProdDatabase } from '../server/supabase';
-import { courses, products, publications } from '../shared/schema';
-import { or, ilike } from 'drizzle-orm';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  try {
-    const db = createProdDatabase();
-    const query = req.query.q as string;
-    
-    if (!query || query.length < 2) {
-      return res.json([]);
-    }
+  const { q: query } = req.query;
+  
+  if (!query || typeof query !== 'string') {
+    return res.status(400).json({ message: 'Query parameter is required' });
+  }
 
-    const searchTerm = `%${query.toLowerCase()}%`;
+  try {
     const results = [];
+    const searchQuery = query.toLowerCase();
+
+    // Get all data from Supabase REST API
+    const SUPABASE_URL = "https://gswdmdygbytmqkacwngm.supabase.co";
+    const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd2RtZHlnYnl0bXFrYWN3bmdtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NjQ0ODU4MSwiZXhwIjoyMDYyMDI0NTgxfQ.wW8nKyU4S4J1pKJjJHqw_QhGVJSJCJpKLQOsE6HLrQY";
+
+    const headers = {
+      "apikey": SUPABASE_SERVICE_KEY,
+      "Authorization": `Bearer ${SUPABASE_SERVICE_KEY}`,
+      "Content-Type": "application/json"
+    };
 
     // Search courses
-    const coursesData = await db.select().from(courses)
-      .where(
-        or(
-          ilike(courses.title, searchTerm),
-          ilike(courses.subtitle, searchTerm),
-          ilike(courses.description, searchTerm)
-        )
-      );
+    const coursesResponse = await fetch(`${SUPABASE_URL}/rest/v1/courses?select=*`, { headers });
+    const coursesData = await coursesResponse.json();
     
-    results.push(...coursesData.map(course => ({
-      id: course.id,
-      title: course.title,
-      subtitle: course.subtitle,
-      description: course.description,
-      type: 'course' as const
-    })));
+    coursesData.filter((course: any) => 
+      course.title?.toLowerCase().includes(searchQuery) ||
+      course.subtitle?.toLowerCase().includes(searchQuery) ||
+      course.description?.toLowerCase().includes(searchQuery)
+    ).forEach((course: any) => {
+      results.push({
+        id: course.id,
+        title: course.title,
+        subtitle: course.subtitle,
+        description: course.description,
+        type: 'course' as const
+      });
+    });
 
     // Search products
-    const productsData = await db.select().from(products)
-      .where(
-        or(
-          ilike(products.name, searchTerm),
-          ilike(products.description, searchTerm),
-          ilike(products.category, searchTerm)
-        )
-      );
+    const productsResponse = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*`, { headers });
+    const productsData = await productsResponse.json();
     
-    results.push(...productsData.map(product => ({
-      id: product.id,
-      title: product.name,
-      subtitle: `R$ ${product.price.toFixed(2)}`,
-      description: product.description,
-      type: 'product' as const
-    })));
+    productsData.filter((product: any) => 
+      product.name?.toLowerCase().includes(searchQuery) ||
+      product.description?.toLowerCase().includes(searchQuery) ||
+      product.category?.toLowerCase().includes(searchQuery)
+    ).forEach((product: any) => {
+      results.push({
+        id: product.id,
+        title: product.name,
+        subtitle: `R$ ${Number(product.price).toFixed(2)}`,
+        description: product.description,
+        type: 'product' as const
+      });
+    });
 
     // Search publications
-    const publicationsData = await db.select().from(publications)
-      .where(
-        or(
-          ilike(publications.title, searchTerm),
-          ilike(publications.journal, searchTerm),
-          ilike(publications.abstract, searchTerm)
-        )
-      );
+    const publicationsResponse = await fetch(`${SUPABASE_URL}/rest/v1/publications?select=*`, { headers });
+    const publicationsData = await publicationsResponse.json();
     
-    results.push(...publicationsData.map(pub => ({
-      id: pub.id.toString(),
-      title: pub.title,
-      subtitle: pub.journal,
-      description: pub.abstract,
-      type: 'publication' as const
-    })));
+    publicationsData.filter((pub: any) => 
+      pub.title?.toLowerCase().includes(searchQuery) ||
+      pub.journal?.toLowerCase().includes(searchQuery) ||
+      pub.abstract?.toLowerCase().includes(searchQuery)
+    ).forEach((pub: any) => {
+      results.push({
+        id: pub.id.toString(),
+        title: pub.title,
+        subtitle: pub.journal,
+        description: pub.abstract,
+        type: 'publication' as const
+      });
+    });
 
     // Sort by relevance
     results.sort((a, b) => {
@@ -83,6 +89,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.json(results.slice(0, 10));
   } catch (error) {
     console.error("Error searching:", error);
-    res.status(500).json({ error: "Failed to search" });
+    res.status(500).json({ error: "Internal server error", details: error.message });
   }
 }

@@ -12,6 +12,13 @@ Educational and e-commerce platform for botanical research and bioactive compoun
 - **State Management**: React Query + Context API
 
 ## Recent Changes
+- **2025-01-20**: Successfully Fixed Vercel Deployment Issues
+  - **Build Directory Issue Resolved**: Fixed `vercel.json` to point to correct output directory `dist/public`
+  - **API Connection Strategy Updated**: Migrated all Vercel serverless functions from direct PostgreSQL to Supabase REST API
+  - **Dependencies Fixed**: Added `@vercel/node` dependency for proper serverless function support
+  - **Type Errors Resolved**: Fixed `.toFixed()` error in search.ts by converting string to number
+  - **All APIs Converted to REST**: Created unified supabase-client.ts for all API calls
+  - **Production Optimization**: All serverless functions now use authenticated REST API calls to Supabase
 - **2025-01-20**: Successfully Completed Hybrid Database Strategy & Migration
   - **Hybrid Database Configuration**:
     - Development environment: PostgreSQL (Replit native) - fully functional

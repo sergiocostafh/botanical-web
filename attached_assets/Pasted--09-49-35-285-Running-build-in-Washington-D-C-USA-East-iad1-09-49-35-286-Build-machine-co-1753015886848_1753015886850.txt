@@ -1,0 +1,56 @@
+[09:49:35.285] Running build in Washington, D.C., USA (East) – iad1
+[09:49:35.286] Build machine configuration: 2 cores, 8 GB
+[09:49:35.300] Cloning github.com/sergiocostafh/botanical-web (Branch: main, Commit: 82fa1b7)
+[09:49:35.866] Cloning completed: 566.000ms
+[09:49:36.437] Restored build cache from previous deployment (E8dZ4p99YRRH92C9sR6joCRpEQwH)
+[09:49:38.620] Running "vercel build"
+[09:49:39.094] Vercel CLI 44.4.3
+[09:49:40.559] Installing dependencies...
+[09:49:41.943] 
+[09:49:41.944] up to date in 1s
+[09:49:41.944] 
+[09:49:41.944] 79 packages are looking for funding
+[09:49:41.944]   run `npm fund` for details
+[09:49:42.267] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[09:49:42.595] transforming...
+[09:49:42.838] Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+[09:49:42.839]   npx update-browserslist-db@latest
+[09:49:42.839]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[09:49:48.585] [32m✓[39m 1892 modules transformed.
+[09:49:49.084] rendering chunks...
+[09:49:49.102] computing gzip size...
+[09:49:49.148] [2m../dist/public/[22m[32mindex.html                 [39m[1m[2m  0.63 kB[22m[1m[22m[2m │ gzip:   0.38 kB[22m
+[09:49:49.149] [2m../dist/public/[22m[2massets/[22m[35mindex-DkJfdiXV.css  [39m[1m[2m117.67 kB[22m[1m[22m[2m │ gzip:  18.77 kB[22m
+[09:49:49.149] [2m../dist/public/[22m[2massets/[22m[36mindex-sYcIfVai.js   [39m[1m[33m739.05 kB[39m[22m[2m │ gzip: 211.12 kB[22m
+[09:49:49.149] [33m
+[09:49:49.149] (!) Some chunks are larger than 500 kB after minification. Consider:
+[09:49:49.149] - Using dynamic import() to code-split the application
+[09:49:49.149] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[09:49:49.150] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[09:49:49.151] [32m✓ built in 6.58s[39m
+[09:49:49.643] Using TypeScript 5.6.3 (local user-provided)
+[09:49:53.593] api/admin/login.ts(1,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+[09:49:53.594] 
+[09:49:53.641] Using TypeScript 5.6.3 (local user-provided)
+[09:49:53.935] api/auth/user.ts(1,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+[09:49:53.935] 
+[09:49:53.962] Using TypeScript 5.6.3 (local user-provided)
+[09:49:55.202] api/courses.ts(1,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+[09:49:55.202] 
+[09:49:56.279] Using TypeScript 5.6.3 (local user-provided)
+[09:49:57.465] api/products.ts(1,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+[09:49:57.465] 
+[09:49:58.034] Using TypeScript 5.6.3 (local user-provided)
+[09:49:58.751] api/publications.ts(1,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+[09:49:58.751] 
+[09:49:59.263] Using TypeScript 5.6.3 (local user-provided)
+[09:49:59.872] api/search.ts(1,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+[09:49:59.873] api/search.ts(53,37): error TS2551: Property 'toFixed' does not exist on type 'string'. Did you mean 'fixed'?
+[09:49:59.873] 
+[09:50:00.737] Build Completed in /vercel/output [20s]
+[09:50:00.876] Deploying outputs...
+[09:50:05.147] 
+[09:50:05.290] Deployment completed
+[09:50:46.001] Uploading build cache [87.62 MB]...
+[09:50:47.112] Build cache uploaded: 1.116s
+[09:50:49.335] Exiting build container

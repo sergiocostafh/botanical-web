@@ -1,13 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createProdDatabase } from '../server/supabase';
-import { products } from '../shared/schema';
+import { supabaseGet, supabasePost } from './lib/supabase-client';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const db = createProdDatabase();
-    
     if (req.method === 'GET') {
-      const productsData = await db.select().from(products);
+      const productsData = await supabaseGet('products');
       res.json(productsData);
     } else if (req.method === 'POST') {
       // Check admin auth
@@ -16,13 +13,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
-      const [product] = await db.insert(products).values(req.body).returning();
+      const product = await supabasePost('products', req.body);
       res.status(201).json(product);
     } else {
       res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
     console.error("Error in products API:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error", details: error.message });
   }
 }
