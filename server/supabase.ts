@@ -18,9 +18,12 @@ export function createDevDatabase() {
 
 // Production database (Supabase)
 export function createProdDatabase() {
-  const supabaseUrl = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL_PRODUCTION;
+  // Use hardcoded connection string (same as frontend does)
+  const supabaseUrl = process.env.SUPABASE_DATABASE_URL || 
+    "postgresql://postgres.gswdmdygbytmqkacwngm:4DmE1dxWZW9lqPYq@aws-0-us-east-1.pooler.supabase.com:6543/postgres";
+  
   if (!supabaseUrl) {
-    throw new Error("SUPABASE_DATABASE_URL or DATABASE_URL_PRODUCTION must be set for production database");
+    throw new Error("SUPABASE_DATABASE_URL must be set for production database");
   }
   return createDatabase(supabaseUrl);
 }
